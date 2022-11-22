@@ -931,8 +931,10 @@ struct map_session_data {
 	} captcha_upload;
 
 	s_macro_detect macro_detect;
-};
+  
+	int skill_being_cast_id;
 
+};
 extern struct eri *pc_sc_display_ers; /// Player's SC display table
 
 /**

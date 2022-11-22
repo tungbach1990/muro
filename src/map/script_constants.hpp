@@ -1871,6 +1871,7 @@
 #ifdef RENEWAL
 	export_constant(SC_EXTREMITYFIST2);
 #endif
+	export_constant(SC_EXPANDED_DHRES);
 
 	/* status icons */
 	export_deprecated_constant2("SI_BLANK",-1);
@@ -4486,6 +4487,7 @@
 	export_constant(MOB_MODE);
 	export_constant(MOB_MVPEXP);
 	export_constant(MOB_ID);
+	export_constant(MOB_JOB);
 
 	/* petinfo types */
 	export_constant(PETINFO_ID);
@@ -8420,6 +8422,7 @@
 	export_constant(MD_NORANDOMWALK);
 	export_constant(MD_NOCAST);
 	export_constant(MD_CANATTACK);
+	export_constant(MD_SKILLONLY);
 	export_constant(MD_CASTSENSORCHASE);
 	export_constant(MD_CHANGECHASE);
 	export_constant(MD_ANGRY);
@@ -8434,10 +8437,12 @@
 	export_constant(MD_IGNOREMISC);
 	export_constant(MD_KNOCKBACKIMMUNE);
 	export_constant(MD_TELEPORTBLOCK);
+	export_constant(MD_PCBEHAVIOR);
 	export_constant(MD_FIXEDITEMDROP);
 	export_constant(MD_DETECTOR);
 	export_constant(MD_STATUSIMMUNE);
 	export_constant(MD_SKILLIMMUNE);
+	export_constant(MD_STAYDEAD);
 
 	export_deprecated_constant3("MD_CASTSENSOR_IDLE", MD_CASTSENSORIDLE, "MD_CASTSENSORIDLE");
 	export_deprecated_constant3("MD_NORANDOM_WALK", MD_NORANDOMWALK, "MD_NORANDOMWALK");

@@ -134,6 +134,47 @@ int battle_gettarget(struct block_list* bl)
 	return 0;
 }
 
+static int battle_getskill_sub(struct block_list *bl, va_list ap)
+{
+	struct block_list **bl_list;
+	struct block_list *target;
+	int *c;
+
+	bl_list = va_arg(ap, struct block_list **);
+	c = va_arg(ap, int *);
+	target = va_arg(ap, struct block_list *);
+
+	if (bl->id == target->id)
+		return 0;
+
+	if (*c >= 24)
+		return 0;
+
+	if (battle_check_skill_target(target, bl, BCT_ENEMY) > 0) {
+		bl_list[(*c)++] = bl;
+		return 1;
+	}
+
+	return 0;
+}
+
+struct block_list* battle_getskill(struct block_list *target,int range)
+{
+	struct block_list *bl_list[24];
+	int c = 0;
+
+	memset(bl_list, 0, sizeof(bl_list));
+	map_foreachinallrange(battle_getskill_sub, target, range, BL_SKILL, bl_list, &c, target);
+
+	if ( c == 0 )
+		return NULL;
+
+	if( c > 24 )
+		c = 24;
+
+	return bl_list[rnd()%c];
+}
+
 /**
  * Get random enemy
  * @param bl
@@ -1285,15 +1326,17 @@ bool battle_status_block_damage(struct block_list *src, struct block_list *targe
 			delay = 100;
 
 		map_session_data *sd = map_id2sd(target->id);
-
+		
 		if (sd && pc_issit(sd))
 			pc_setstand(sd, true);
 		if (sce_d && (d_bl = map_id2bl(sce_d->val1)) &&
 			((d_bl->type == BL_MER && ((TBL_MER*)d_bl)->master && ((TBL_MER*)d_bl)->master->bl.id == target->id) ||
+			(d_bl->type == BL_MOB && ((TBL_MOB*)d_bl)->devotion[sce_d->val2] == target->id) ||
 			(d_bl->type == BL_PC && ((TBL_PC*)d_bl)->devotion[sce_d->val2] == target->id)) &&
 			check_distance_bl(target, d_bl, sce_d->val3))
 		{ //If player is target of devotion, show guard effect on the devotion caster rather than the target
 			clif_skill_nodamage(d_bl, d_bl, CR_AUTOGUARD, sce->val1, 1);
+			clif_skill_nodamage(target, target, CR_AUTOGUARD, sce->val1, 1);
 			unit_set_walkdelay(d_bl, gettick(), delay, 1);
 			d->dmg_lv = ATK_MISS;
 			return false;
@@ -1732,6 +1775,9 @@ int64 battle_calc_damage(struct block_list *src,struct block_list *bl,struct Dam
 
 		if( sc->data[SC__DEADLYINFECT] && (flag&(BF_SHORT|BF_MAGIC)) == BF_SHORT && damage > 0 && rnd()%100 < 30 + 10 * sc->data[SC__DEADLYINFECT]->val1 )
 			status_change_spread(bl, src);
+
+		if(sce = sc->data[SC_EXPANDED_DHRES])
+			damage -= damage * sce->val2 / 100;
 
 	} //End of target SC_ check
 
@@ -2491,7 +2537,7 @@ static int battle_range_type(struct block_list *src, struct block_list *target, 
 	}
 
 	//Skill Range Criteria
-	if (battle_config.skillrange_by_distance &&
+	if (!(status_get_mode(src) & MD_PCBEHAVIOR) && battle_config.skillrange_by_distance &&
 		(src->type&battle_config.skillrange_by_distance)
 	) { //based on distance between src/target [Skotlex]
 		if (check_distance_bl(src, target, 3))
@@ -3224,7 +3270,7 @@ int battle_get_weapon_element(struct Damage* wd, struct block_list *src, struct 
 			element = wd->miscflag; //element comes in flag.
 			break;
 		case LK_SPIRALPIERCE:
-			if (!sd)
+			if (!sd && !(status_get_mode(src)&MD_PCBEHAVIOR))
 				element = ELE_NEUTRAL; //forced neutral for monsters
 			break;
 		case RK_DRAGONBREATH:
@@ -6227,13 +6273,11 @@ static struct Damage initialize_weapon_data(struct block_list *src, struct block
 			}
 				break;
 			case MO_FINGEROFFENSIVE:
-				if (sd) {
+				if (src) {
 					if (battle_config.finger_offensive_type)
 						wd.div_ = 1;
-#ifndef RENEWAL
-					else if ((sd->spiritball + sd->spiritball_old) < wd.div_)
-						wd.div_ = sd->spiritball + sd->spiritball_old;
-#endif
+					else if ((status_get_spiritball(src) + status_get_spiritball_old(src) < wd.div_))
+						wd.div_ = status_get_spiritball(src) + status_get_spiritball_old(src);
 				}
 				break;
 
@@ -6684,6 +6728,11 @@ static struct Damage battle_calc_weapon_attack(struct block_list *src, struct bl
 			else 
 				wd.damage = 0;
 			break;
+	}
+	struct mob_data *md= BL_CAST(BL_MOB, src);
+	if ( md && skill_id == MO_FINGEROFFENSIVE) {
+		ATK_ADD(wd.damage, wd.damage2, ((wd.div_ < 1) ? 1 : wd.div_)*md->spiritball*3);
+
 	}
 
 	if(sd) {
@@ -8421,6 +8470,7 @@ int64 battle_calc_return_damage(struct block_list* tbl, struct block_list *src, 
 
 				if( (sce_d = tsc->data[SC_DEVOTION]) && (d_bl = map_id2bl(sce_d->val1)) &&
 					((d_bl->type == BL_MER && ((TBL_MER*)d_bl)->master && ((TBL_MER*)d_bl)->master->bl.id == tbl->id) ||
+						(d_bl->type == BL_MOB && ((TBL_MOB*)d_bl)->devotion[sce_d->val2] == tbl->id)||
 					(d_bl->type == BL_PC && ((TBL_PC*)d_bl)->devotion[sce_d->val2] == tbl->id)) )
 				{ //Don't reflect non-skill attack if has SC_REFLECTSHIELD from Devotion bonus inheritance
 					if( (!skill_id && battle_config.devotion_rdamage_skill_only && tsc->data[SC_REFLECTSHIELD]->val4) ||
@@ -8971,6 +9021,7 @@ enum damage_lv battle_weapon_attack(struct block_list* src, struct block_list* t
 
 			if( d_bl && (
 				(d_bl->type == BL_MER && ((TBL_MER*)d_bl)->master && ((TBL_MER*)d_bl)->master->bl.id == target->id) ||
+				(d_bl->type == BL_MOB && ((TBL_MOB*)d_bl)->devotion[sce->val2] == target->id) ||
 				(d_bl->type == BL_PC && ((TBL_PC*)d_bl)->devotion[sce->val2] == target->id)
 				) && check_distance_bl(target, d_bl, sce->val3) )
 			{
@@ -9278,6 +9329,250 @@ struct block_list* battle_get_master(struct block_list *src)
 	return prev;
 }
 
+
+int battle_check_skill_target( struct block_list *src, struct block_list *target,int flag)
+{
+	int16 m; //map
+	int state = 0; //Initial state none
+	int strip_enemy = 1; //Flag which marks whether to remove the BCT_ENEMY status if it's also friend/ally.
+	struct block_list *s_bl = src, *t_bl = target;
+	struct unit_data *ud = NULL;
+
+	nullpo_ret(src);
+	nullpo_ret(target);
+
+	ud = unit_bl2ud(target);
+	m = target->m;
+
+	//t_bl/s_bl hold the 'master' of the attack, while src/target are the actual
+	//objects involved.
+	if( (t_bl = battle_get_master(target)) == NULL )
+		t_bl = target;
+
+	if( (s_bl = battle_get_master(src)) == NULL )
+		s_bl = src;
+	int sbg_id = 0, tbg_id = 0;
+	struct map_data* mapdata = map_getmapdata(m);
+	TBL_SKILL* su = (TBL_SKILL*)target;
+	uint16 skill_id = battle_getcurrentskill(src);
+	if (!su || !su->group)
+		return 0;
+
+	switch( t_bl->type ) { //Checks on target master
+		case BL_PC: {
+			struct map_session_data *sd;
+			struct status_change *sc = NULL;
+
+			if( t_bl == s_bl )
+				break;
+
+			sd = BL_CAST(BL_PC, t_bl);
+			sc = status_get_sc(t_bl);
+
+			if( ((sd->state.block_action & PCBLOCK_IMMUNE) || (sc->data[SC_KINGS_GRACE] && s_bl->type != BL_PC)) && flag&BCT_ENEMY )
+				return 0; // Global immunity only to Attacks
+			if( sd->status.karma && s_bl->type == BL_PC && ((TBL_PC*)s_bl)->status.karma )
+				state |= BCT_ENEMY; // Characters with bad karma may fight amongst them
+			if( sd->state.killable ) {
+				state |= BCT_ENEMY; // Everything can kill it
+				strip_enemy = 0;
+			}
+			break;
+		}
+		case BL_MOB:
+		{
+			struct mob_data *md = BL_CAST(BL_MOB, t_bl);
+
+			if( md->guardian_data && md->guardian_data->guild_id && !mapdata_flag_gvg(mapdata) )
+				return 0; // Disable guardians/emperiums owned by Guilds on non-woe times.
+			break;
+		}
+		default: break; //other type doesn't have slave yet
+    } //end switch master target
+
+	switch( src->type ) { //Checks on actual src type
+		case BL_PET:
+			if (t_bl->type != BL_MOB && flag&BCT_ENEMY)
+				return 0; //Pet may not attack non-mobs.
+			if (t_bl->type == BL_MOB && flag & BCT_ENEMY) {
+				mob_data *md = BL_CAST(BL_MOB, t_bl);
+
+				if (md->guardian_data || md->special_state.ai == AI_GUILD)
+					return 0; //pet may not attack Guardians/Emperium
+			}
+			break;
+		case BL_SKILL: {
+				struct skill_unit *su = (struct skill_unit *)src;
+				struct status_change* sc = status_get_sc(target);
+				if (!su || !su->group)
+					return 0;
+
+				std::bitset<INF2_MAX> inf2 = skill_db.find(su->group->skill_id)->inf2;
+
+				if (su->group->src_id == target->id) {
+					if (inf2[INF2_NOTARGETSELF])
+						return -1;
+					if (inf2[INF2_TARGETSELF])
+						return 1;
+				}
+				//Status changes that prevent traps from triggering
+				if (sc && sc->count && inf2[INF2_ISTRAP]) {
+					if( sc->data[SC_SIGHTBLASTER] && sc->data[SC_SIGHTBLASTER]->val2 > 0 && sc->data[SC_SIGHTBLASTER]->val4%2 == 0)
+						return -1;
+				}
+			}
+			break;
+		case BL_MER:
+			if (t_bl->type == BL_MOB && ((TBL_MOB*)t_bl)->mob_id == MOBID_EMPERIUM && flag&BCT_ENEMY)
+				return 0; //mercenary may not attack Emperium
+			break;
+    } //end switch actual src
+
+	switch( s_bl->type )
+	{	//Checks on source master
+		case BL_PC:
+		{
+			struct map_session_data *sd = BL_CAST(BL_PC, s_bl);
+			if( s_bl != t_bl )
+			{
+				if( sd->state.killer )
+				{
+					state |= BCT_ENEMY; // Can kill anything
+					strip_enemy = 0;
+				}
+				else if( sd->duel_group && !((!battle_config.duel_allow_pvp && mapdata->flag[MF_PVP]) || (!battle_config.duel_allow_gvg && mapdata_flag_gvg(mapdata))) )
+				{
+					if( t_bl->type == BL_PC && (sd->duel_group == ((TBL_PC*)t_bl)->duel_group) )
+						return (BCT_ENEMY&flag)?1:-1; // Duel targets can ONLY be your enemy, nothing else.
+					else
+						return 0; // You can't target anything out of your duel
+				}
+			}
+			if( !sd->status.guild_id && t_bl->type == BL_MOB && ((TBL_MOB*)t_bl)->mob_id == MOBID_EMPERIUM && mapdata_flag_gvg(mapdata) )
+				return 0; //If you don't belong to a guild, can't target emperium.
+			if( t_bl->type != BL_PC && ((TBL_MOB*)t_bl)->special_state.ai!=AI_GUILD)
+				state |= BCT_ENEMY; //Natural enemy.
+			break;
+		}
+		case BL_MOB:
+		{
+			struct mob_data *md = BL_CAST(BL_MOB, s_bl);
+			if( md->guardian_data && md->guardian_data->guild_id && !mapdata_flag_gvg(mapdata) )
+				return 0; // Disable guardians/emperium owned by Guilds on non-woe times.
+
+			if( !md->special_state.ai )
+			{ //Normal mobs
+				if(
+					( target->type == BL_MOB && t_bl->type == BL_PC && ( ((TBL_MOB*)target)->special_state.ai != AI_ZANZOU && ((TBL_MOB*)target)->special_state.ai != AI_ATTACK ) ) ||
+					( t_bl->type == BL_MOB && (((TBL_MOB*)t_bl)->special_state.ai == AI_NONE || ((TBL_MOB*)t_bl)->special_state.ai == AI_WAVEMODE ))
+				  )
+					state |= BCT_PARTY; //Normal mobs with no ai or with AI_WAVEMODE are friends.
+				else
+					state |= BCT_ENEMY; //However, all else are enemies.
+			}
+			else
+			{
+				if( t_bl->type == BL_MOB && !((TBL_MOB*)t_bl)->special_state.ai )
+					state |= BCT_ENEMY; //Natural enemy for AI mobs are normal mobs.
+			}
+			break;
+		}
+		default:
+		//Need some sort of default behaviour for unhandled types.
+			if (t_bl->type != s_bl->type)
+				state |= BCT_ENEMY;
+			break;
+    } //end switch on src master
+
+	if( (flag&BCT_ALL) == BCT_ALL )
+	{ //All actually stands for all attackable chars, icewall and traps
+		if(target->type&(BL_CHAR|BL_SKILL))
+			return 1;
+		else
+			return -1;
+	}
+	if( flag == BCT_NOONE ) //Why would someone use this? no clue.
+		return -1;
+
+	if( t_bl == s_bl )
+	{ //No need for further testing.
+		state |= BCT_SELF|BCT_PARTY|BCT_GUILD;
+		if( state&BCT_ENEMY && strip_enemy )
+			state&=~BCT_ENEMY;
+		return (flag&state)?1:-1;
+	}
+
+	if( mapdata_flag_vs(mapdata) )
+	{ //Check rivalry settings.
+		if(mapdata->flag[MF_BATTLEGROUND] )
+		{
+			sbg_id = bg_team_get_id(s_bl);
+			tbg_id = bg_team_get_id(t_bl);
+
+		}
+		if( flag&(BCT_PARTY|BCT_ENEMY) )
+		{
+			int s_party = status_get_party_id(s_bl);
+			if(!mapdata->flag[MF_BATTLEGROUND] && s_party && s_party == status_get_party_id(t_bl) && !(mapdata->flag[MF_PVP] && mapdata->flag[MF_PVP_NOPARTY]) && !(mapdata_flag_gvg(mapdata) && mapdata->flag[MF_GVG_NOPARTY]))
+				state |= BCT_PARTY;
+			else if (mapdata->flag[MF_BATTLEGROUND] && (sbg_id == tbg_id)) 
+				state |= BCT_PARTY;
+			else
+				state |= BCT_ENEMY;
+		}
+		if( flag&(BCT_GUILD|BCT_ENEMY) )
+		{
+			int s_guild = status_get_guild_id(s_bl);
+			int t_guild = status_get_guild_id(t_bl);
+			if(!mapdata->flag[MF_BATTLEGROUND] && !(mapdata->flag[MF_PVP] && mapdata->flag[MF_PVP_NOGUILD]) && s_guild && t_guild && (s_guild == t_guild || (!(flag&BCT_SAMEGUILD) && guild_isallied(s_guild, t_guild))))
+				state |= BCT_GUILD;
+			else if (mapdata->flag[MF_BATTLEGROUND] && (sbg_id == tbg_id)) 
+				state |= BCT_GUILD;
+			else
+				state |= BCT_ENEMY;
+		}
+		if( state&BCT_ENEMY && mapdata->flag[MF_BATTLEGROUND] && sbg_id && sbg_id == tbg_id )
+			state &= ~BCT_ENEMY;
+
+		if( state&BCT_ENEMY && battle_config.pk_mode && !mapdata_flag_gvg(mapdata) && s_bl->type == BL_PC && t_bl->type == BL_PC )
+		{ // Prevent novice engagement on pk_mode (feature by Valaris)
+			TBL_PC *sd = (TBL_PC*)s_bl, *sd2 = (TBL_PC*)t_bl;
+			if (
+				(sd->class_&MAPID_UPPERMASK) == MAPID_NOVICE ||
+				(sd2->class_&MAPID_UPPERMASK) == MAPID_NOVICE ||
+				(int)sd->status.base_level < battle_config.pk_min_level ||
+			  	(int)sd2->status.base_level < battle_config.pk_min_level ||
+				(battle_config.pk_level_range && abs((int)sd->status.base_level - (int)sd2->status.base_level) > battle_config.pk_level_range)
+			)
+				state &= ~BCT_ENEMY;
+		}
+	}//end map_flag_vs chk rivality
+	else
+	{ //Non pvp/gvg, check party/guild settings.
+		if( flag&BCT_PARTY || state&BCT_ENEMY )
+		{
+			int s_party = status_get_party_id(s_bl);
+			if(s_party && s_party == status_get_party_id(t_bl))
+				state |= BCT_PARTY;
+		}
+		if( flag&BCT_GUILD || state&BCT_ENEMY )
+		{
+			int s_guild = status_get_guild_id(s_bl);
+			int t_guild = status_get_guild_id(t_bl);
+			if(s_guild && t_guild && (s_guild == t_guild || (!(flag&BCT_SAMEGUILD) && guild_isallied(s_guild, t_guild))))
+				state |= BCT_GUILD;
+		}
+	} //end non pvp/gvg chk rivality
+
+	if( !state ) //If not an enemy, nor a guild, nor party, nor yourself, it's neutral.
+		state = BCT_NEUTRAL;
+	//Alliance state takes precedence over enemy one.
+	else if( state&BCT_ENEMY && strip_enemy && state&(BCT_SELF|BCT_PARTY|BCT_GUILD) )
+		state&=~BCT_ENEMY;
+
+	return (flag&state)?1:-1;
+}
+
 /*==========================================
  * Checks the state between two targets
  * (enemy, friend, party, guild, etc)
@@ -9307,7 +9602,7 @@ int battle_check_target( struct block_list *src, struct block_list *target,int f
 
 	ud = unit_bl2ud(target);
 	m = target->m;
-
+	int sbg_id = 0, tbg_id = 0;
 	//t_bl/s_bl hold the 'master' of the attack, while src/target are the actual
 	//objects involved.
 	if( (t_bl = battle_get_master(target)) == NULL )
@@ -9409,8 +9704,9 @@ int battle_check_target( struct block_list *src, struct block_list *target,int f
 				}
 				state |= BCT_ENEMY;
 				strip_enemy = 0;
-			} else	//Excepting traps, Icewall, and Wall of Thorns, you should not be able to target skills.
-				return 0;
+			}
+			else 				
+				return 0; //Excepting traps, Icewall, and Wall of Thorns, you should not be able to target skills.
 		}
 			break;
 		case BL_MER:
@@ -9516,7 +9812,7 @@ int battle_check_target( struct block_list *src, struct block_list *target,int f
 			}
 			if( !sd->status.guild_id && t_bl->type == BL_MOB && ((TBL_MOB*)t_bl)->mob_id == MOBID_EMPERIUM && mapdata_flag_gvg(mapdata) )
 				return 0; //If you don't belong to a guild, can't target emperium.
-			if( t_bl->type != BL_PC )
+			if( t_bl->type != BL_PC && ((TBL_MOB*)t_bl)->special_state.ai!=AI_GUILD)
 				state |= BCT_ENEMY; //Natural enemy.
 			break;
 		}
@@ -9567,10 +9863,10 @@ int battle_check_target( struct block_list *src, struct block_list *target,int f
 			state&=~BCT_ENEMY;
 		return (flag&state)?1:-1;
 	}
-
+	
 	if( mapdata_flag_vs(mapdata) )
 	{ //Check rivalry settings.
-		int sbg_id = 0, tbg_id = 0;
+		
 		if(mapdata->flag[MF_BATTLEGROUND] )
 		{
 			sbg_id = bg_team_get_id(s_bl);
@@ -9579,7 +9875,9 @@ int battle_check_target( struct block_list *src, struct block_list *target,int f
 		if( flag&(BCT_PARTY|BCT_ENEMY) )
 		{
 			int s_party = status_get_party_id(s_bl);
-			if( s_party && s_party == status_get_party_id(t_bl) && !(mapdata->flag[MF_PVP] && mapdata->flag[MF_PVP_NOPARTY]) && !(mapdata_flag_gvg(mapdata) && mapdata->flag[MF_GVG_NOPARTY]) && (!mapdata->flag[MF_BATTLEGROUND] || sbg_id == tbg_id) )
+			if(!mapdata->flag[MF_BATTLEGROUND] && s_party && s_party == status_get_party_id(t_bl) && !(mapdata->flag[MF_PVP] && mapdata->flag[MF_PVP_NOPARTY]) && !(mapdata_flag_gvg(mapdata) && mapdata->flag[MF_GVG_NOPARTY]))
+				state |= BCT_PARTY;
+			else if (mapdata->flag[MF_BATTLEGROUND] && (sbg_id == tbg_id)) 
 				state |= BCT_PARTY;
 			else
 				state |= BCT_ENEMY;
@@ -9588,7 +9886,9 @@ int battle_check_target( struct block_list *src, struct block_list *target,int f
 		{
 			int s_guild = status_get_guild_id(s_bl);
 			int t_guild = status_get_guild_id(t_bl);
-			if( !(mapdata->flag[MF_PVP] && mapdata->flag[MF_PVP_NOGUILD]) && s_guild && t_guild && (s_guild == t_guild || (!(flag&BCT_SAMEGUILD) && guild_isallied(s_guild, t_guild))) && (!mapdata->flag[MF_BATTLEGROUND] || sbg_id == tbg_id) )
+			if(!mapdata->flag[MF_BATTLEGROUND] && !(mapdata->flag[MF_PVP] && mapdata->flag[MF_PVP_NOGUILD]) && s_guild && t_guild && (s_guild == t_guild || (!(flag&BCT_SAMEGUILD) && guild_isallied(s_guild, t_guild))))
+				state |= BCT_GUILD;
+			else if (mapdata->flag[MF_BATTLEGROUND] && (sbg_id == tbg_id)) 
 				state |= BCT_GUILD;
 			else
 				state |= BCT_ENEMY;
@@ -9626,9 +9926,11 @@ int battle_check_target( struct block_list *src, struct block_list *target,int f
 		}
 	} //end non pvp/gvg chk rivality
 
-	if( !state ) //If not an enemy, nor a guild, nor party, nor yourself, it's neutral.
+	if (!state) //If not an enemy, nor a guild, nor party, nor yourself, it's neutral.
 		state = BCT_NEUTRAL;
 	//Alliance state takes precedence over enemy one.
+	else if ((state & BCT_ENEMY) && sbg_id > 0 && tbg_id > 0 && sbg_id != tbg_id)
+		state &= ~BCT_FRIEND;
 	else if( state&BCT_ENEMY && strip_enemy && state&(BCT_SELF|BCT_PARTY|BCT_GUILD) )
 		state&=~BCT_ENEMY;
 
