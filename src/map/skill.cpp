@@ -45,7 +45,6 @@
 #include "script.hpp"
 #include "status.hpp"
 #include "unit.hpp"
-#include "pcmacro.hpp"
 using namespace rathena;
 
 #define SKILLUNITTIMER_INTERVAL	battle_config.skill_unit_timer_interval
@@ -13269,14 +13268,7 @@ TIMER_FUNC(skill_castend_pos){
 //				break;
 //			}
 //		}
-		if (sd) {
-			automatons::Sequence& sequence = sd->macros.get_current_macro_sequence();
-			if (sequence.is_active() && !automatons::MacroCollection::skill_is_macro_starter(ud->skill_id)) {
-				t_tick cast_tick = i64max(sd->ud.canact_tick, gettick() + status_get_adelay(&sd->bl));
-				t_tick equip_tick = sd->canequip_tick;
-				sequence.add_action_timer(cast_tick, equip_tick, ud->skill_id, sd->bl.id);
-			}
-		}		
+		
 		unit_set_walkdelay(src, tick, battle_config.default_walk_delay+skill_get_walkdelay(ud->skill_id, ud->skill_lv), 1);
 		if(sd)
 			clif_skill_cooldown(sd, MO_EXTREMITYFIST, battle_config.default_walk_delay);

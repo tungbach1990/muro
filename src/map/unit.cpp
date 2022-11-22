@@ -514,23 +514,23 @@ static TIMER_FUNC(unit_walktoxy_timer)
 		}
 	}
 
-	switch(bl->type) {
+	switch (bl->type) {
 		case BL_PC:
-			if( !sd->npc_ontouch_.empty() )
-				npc_touchnext_areanpc(sd,false);
-			if(map_getcell(bl->m,x,y,CELL_CHKNPC)) {
-				npc_touch_area_allnpc(sd,bl->m,x,y);
+			if (!sd->npc_ontouch_.empty())
+				npc_touchnext_areanpc(sd, false);
+			if (map_getcell(bl->m, x, y, CELL_CHKNPC)) {
+				npc_touch_area_allnpc(sd, bl->m, x, y);
 				if (bl->prev == NULL) // Script could have warped char, abort remaining of the function.
 					return 0;
 			} else
 				sd->areanpc.clear();
 			pc_cell_basilica(sd);
 			break;
-		case BL_MOB:
+		case BL_MOB:{
 			//Movement was successful, reset walktoxy_fail_count
 			md->walktoxy_fail_count = 0;
-			if( map_getcell(bl->m,x,y,CELL_CHKNPC) ) {
-				if( npc_touch_areanpc2(md) )
+			if (map_getcell(bl->m, x, y, CELL_CHKNPC)) {
+				if (npc_touch_areanpc2(md))
 					return 0; // Warped
 			} else
 				md->areanpc_id = 0;
@@ -554,6 +554,7 @@ static TIMER_FUNC(unit_walktoxy_timer)
 				clif_move(ud);
 			}
 			break;
+		}
 		case BL_NPC:
 			if (nd->sc.option&OPTION_INVISIBLE)
 				break;
@@ -1846,10 +1847,8 @@ int unit_skilluse_id2(struct block_list *src, int target_id, uint16 skill_id, ui
 				break;
 		}
 
-		if (!skill_check_condition_castbegin(sd, skill_id, skill_lv)){
-			automatons::MacroCollection::reset_all_macros(sd->macros);
+		if (!skill_check_condition_castbegin(sd, skill_id, skill_lv))
 			return 0;
-		}
 	}
 
 	if (src->type == BL_MOB) {
