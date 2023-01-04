@@ -3896,19 +3896,19 @@ struct block_list *mob_getmasterhpltmaxrate(struct mob_data *md,int64 rate)
 	return NULL;
 }
 
-bool mob_getstatus_sub( struct mob_data& md, e_mob_skill_condition condition, sc_type type ){
+bool mob_getstatus_sub( block_list* bl, e_mob_skill_condition condition, sc_type type ){
 	bool found = false;
 
 	if( type == SC_NONE ){
 		for( int i = SC_COMMON_MIN; i <= SC_COMMON_MAX; i++ ){
-			if( md.sc.getSCE( i ) != nullptr ){
+			if( status_get_sc(bl)->getSCE( i ) != nullptr ){
 				// Once an effect was found, break out. [Skotlex]
 				found = true;
 				break;
 			}
 		}
 	}else{
-		found = md.sc.getSCE( type ) != nullptr;
+		found = status_get_sc(bl)->getSCE( type ) != nullptr;
 	}
 
 	switch( condition ){
@@ -3947,12 +3947,9 @@ int mob_getfriendstatus_sub(struct block_list *bl,va_list ap)
 	if ((sd = BL_CAST(BL_PC, bl)) && sd->state.block_action == PCBLOCK_IMMUNE )
 			return 0;
 	fr = va_arg(ap, struct block_list **);
-	int64 cond1 = va_arg( ap, int64 );
-	int64 cond2 = va_arg( ap, int64 );
-	struct mob_data** fr = va_arg( ap, struct mob_data** );
-
-	if( mob_getstatus_sub( *md, static_cast<e_mob_skill_condition>( cond1 ), static_cast<sc_type>( cond2 ) ) ){
-		*fr = md;
+	if( mob_getstatus_sub( bl, static_cast<e_mob_skill_condition>( cond1 ), static_cast<sc_type>( cond2 ) ) ){
+		*fr = bl;
+	}
 	return 0;
 }
 struct block_list *mob_getfriendstatus(struct mob_data *md, int64 cond1, int64 cond2)
@@ -4135,7 +4132,7 @@ int mobskill_use(struct mob_data *md, t_tick tick, int event, int64 damage)
 			case MSC_MYSTATUSOFF:		// status[num] off
 					if( !md->sc.count ){
 						flag = 0;
-					}else if( mob_getstatus_sub( *md, static_cast<e_mob_skill_condition>( ms[i]->cond1 ), static_cast<sc_type>( ms[i]->cond2 ) ) ){
+					}else if( mob_getstatus_sub( &md->bl, static_cast<e_mob_skill_condition>( ms[i]->cond1 ), static_cast<sc_type>( ms[i]->cond2 ) ) ){
 						flag = 1;
 					}else{
 						flag = 0;
@@ -4157,7 +4154,7 @@ int mobskill_use(struct mob_data *md, t_tick tick, int event, int64 damage)
 				else
 					bl = map_id2bl(md->target_id);
 				if (bl) {
-					flag = status_get_sc(bl)->data[ms[i]->cond2] != NULL;
+					flag = status_get_sc(bl)->getSCE(ms[i]->cond2) != NULL;
 					flag ^= (ms[i]->cond1 == MSC_ENEMYSTATUSOFF); break;
 				} else
 					flag = 0;
@@ -4185,10 +4182,10 @@ int mobskill_use(struct mob_data *md, t_tick tick, int event, int64 damage)
 						flag = 0;
 					} else if (ms[i]->cond2 == -1) {
 						for (int j = SC_COMMON_MIN; j <= SC_COMMON_MAX; j++)
-							if ((flag = (status_get_sc(mbl)->data[j] != NULL)) != 0)
+							if ((flag = (status_get_sc(mbl)->getSCE(j) != NULL)) != 0)
 								break;
 					} else {
-						flag = (status_get_sc(mbl)->data[ms[i]->cond2] != NULL);
+						flag = (status_get_sc(mbl)->getSCE(ms[i]->cond2) != NULL);
 					}
 					flag ^= (ms[i]->cond1 == MSC_MASTERSTATUSOFF);
 				} else

@@ -9946,22 +9946,22 @@ int  status_get_sc_total_resist(struct block_list* src, struct block_list* bl, e
 	}
 
 	if (sc) {
-		if (sc->data[SC_SCRESIST])
-			sc_def += sc->data[SC_SCRESIST]->val1 * 100; // Status resist
+		if (sc->getSCE(SC_SCRESIST))
+			sc_def += sc->getSCE(SC_SCRESIST)->val1 * 100; // Status resist
 #ifdef RENEWAL
-		else if (sc->data[SC_SIEGFRIED] && (type == SC_BLIND || type == SC_STONE || type == SC_FREEZE || type == SC_STUN || type == SC_CURSE || type == SC_SLEEP || type == SC_SILENCE))
-			sc_def += sc->data[SC_SIEGFRIED]->val3 * 100; // Status resistance.
+		else if (sc->getSCE(SC_SIEGFRIED) && (type == SC_BLIND || type == SC_STONE || type == SC_FREEZE || type == SC_STUN || type == SC_CURSE || type == SC_SLEEP || type == SC_SILENCE))
+			sc_def += sc->getSCE(SC_SIEGFRIED)->val3 * 100; // Status resistance.
 #else
-		else if (sc->data[SC_SIEGFRIED])
-			sc_def += sc->data[SC_SIEGFRIED]->val3 * 100; // Status resistance.
+		else if (sc->getSCE(SC_SIEGFRIED))
+			sc_def += sc->getSCE(SC_SIEGFRIED)->val3 * 100; // Status resistance.
 #endif
-		else if (sc->data[SC_LEECHESEND] && sc->data[SC_LEECHESEND]->val3 == 0) {
+		else if (sc->getSCE(SC_LEECHESEND) && sc->getSCE(SC_LEECHESEND)->val3 == 0) {
 			switch (type) {
 			case SC_BLIND:
 			case SC_STUN:
 				return  0; // Immune
 			}
-		} else if (sc->data[SC_OBLIVIONCURSE] && sc->data[SC_OBLIVIONCURSE]->val3 == 0) {
+		} else if (sc->getSCE(SC_OBLIVIONCURSE) && sc->getSCE(SC_OBLIVIONCURSE)->val3 == 0) {
 			switch (type) {
 			case SC_SILENCE:
 			case SC_CURSE:
@@ -9988,8 +9988,8 @@ int  status_get_sc_total_resist(struct block_list* src, struct block_list* bl, e
 				if (it.id == type)
 					rate -= rate * it.val / 10000;
 			}
-			if (sd->sc.data[SC_COMMONSC_RESIST] && SC_COMMON_MIN <= type && type <= SC_COMMON_MAX)
-				rate -= rate * sd->sc.data[SC_COMMONSC_RESIST]->val1 / 100;
+			if (sd->sc.getSCE(SC_COMMONSC_RESIST) && SC_COMMON_MIN <= type && type <= SC_COMMON_MAX)
+				rate -= rate * sd->sc.getSCE(SC_COMMONSC_RESIST)->val1 / 100;
 		}
 
 		// Aegis accuracy
@@ -10622,7 +10622,7 @@ int status_change_start(struct block_list* src, struct block_list* bl,enum sc_ty
 		case SC_BLESSING:
 			
 				// Remove Curse first, Stone is only removed if the target is not cursed
-			if (sc->data[SC_CURSE] && status_get_race(bl)!= RC_UNDEAD && status_get_race(bl) != RC_DEMON) {
+			if (sc->getSCE(SC_CURSE) && status_get_race(bl)!= RC_UNDEAD && status_get_race(bl) != RC_DEMON) {
 					status_change_end(bl, SC_CURSE);
 					return 1; // End Curse and do not give stat boost
 			} else if (sc->getSCE(SC_STONE)) {

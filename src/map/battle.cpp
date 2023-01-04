@@ -1776,7 +1776,7 @@ int64 battle_calc_damage(struct block_list *src,struct block_list *bl,struct Dam
 		if( sc->getSCE(SC__DEADLYINFECT) && (flag&(BF_SHORT|BF_MAGIC)) == BF_SHORT && damage > 0 && rnd()%100 < 30 + 10 * sc->getSCE(SC__DEADLYINFECT)->val1 )
 			status_change_spread(bl, src);
 
-		if(sce = sc->data[SC_EXPANDED_DHRES])
+		if(sce = sc->getSCE(SC_EXPANDED_DHRES))
 			damage -= damage * sce->val2 / 100;
 
 	} //End of target SC_ check
@@ -9373,7 +9373,7 @@ int battle_check_skill_target( struct block_list *src, struct block_list *target
 			sd = BL_CAST(BL_PC, t_bl);
 			sc = status_get_sc(t_bl);
 
-			if( ((sd->state.block_action & PCBLOCK_IMMUNE) || (sc->data[SC_KINGS_GRACE] && s_bl->type != BL_PC)) && flag&BCT_ENEMY )
+			if( ((sd->state.block_action & PCBLOCK_IMMUNE) || (sc->getSCE(SC_KINGS_GRACE) && s_bl->type != BL_PC)) && flag&BCT_ENEMY )
 				return 0; // Global immunity only to Attacks
 			if( sd->status.karma && s_bl->type == BL_PC && ((TBL_PC*)s_bl)->status.karma )
 				state |= BCT_ENEMY; // Characters with bad karma may fight amongst them
@@ -9421,7 +9421,7 @@ int battle_check_skill_target( struct block_list *src, struct block_list *target
 				}
 				//Status changes that prevent traps from triggering
 				if (sc && sc->count && inf2[INF2_ISTRAP]) {
-					if( sc->data[SC_SIGHTBLASTER] && sc->data[SC_SIGHTBLASTER]->val2 > 0 && sc->data[SC_SIGHTBLASTER]->val4%2 == 0)
+					if( sc->getSCE(SC_SIGHTBLASTER) && sc->getSCE(SC_SIGHTBLASTER)->val2 > 0 && sc->getSCE(SC_SIGHTBLASTER)->val4%2 == 0)
 						return -1;
 				}
 			}

@@ -4999,11 +4999,11 @@ void clif_getareachar_unit( map_session_data* sd,struct block_list *bl ){
 			ARR_FIND(0, MAX_DEVOTION, i, md->devotion[i] > 0);
 			if (i < MAX_DEVOTION)
 				clif_devotion(&md->bl, &sd->bl);
-			if (status_get_sc(bl)->data[SC_DEVOTION] && (d_bl = map_id2bl(status_get_sc(bl)->data[SC_DEVOTION]->val1)) != NULL)
+			if (status_get_sc(bl)->getSCE(SC_DEVOTION) && (d_bl = map_id2bl(status_get_sc(bl)->getSCE(SC_DEVOTION)->val1)) != NULL)
 				clif_devotion(d_bl, &sd->bl);
 			//Assumptio hardfix for mobs
 			status_change* sc = status_get_sc(bl);
-			if(sc && sc->data[SC_ASSUMPTIO])
+			if(sc && sc->getSCE(SC_ASSUMPTIO))
 				clif_specialeffect(bl, EF_ASSUMPTIO, AREA_WOS);
 #endif
 	}
