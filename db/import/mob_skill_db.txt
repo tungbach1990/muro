@@ -100,7 +100,6 @@
 //////////////////////////////////////////LEVANTINE//////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 //30002,Levantine Aldehyde@WZ_FIREPILLAR,anytarget,80,10,10000,20,0,no,around8,always,,,,,,,,
-//30002,Levantine Aldehyde@WZ_GAN,any,483,1,10000,20,0,no,skill,expanded,e_always,,,,,,,
 
 30002,Levantine@EXPANDED_DHRES,idle,3049,60,10000,0,1000,no,self,onspawn,,,,,,,,
 //30002,Levantine@PR_RESURRECT,any,54,1,10000,0,1000,no,friend,expanded,ready_for_resu,,,,,,,
@@ -121,7 +120,6 @@
 ///////////////////////////////LEZARD/////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////
 //30021,Levantine Aldehyde@WZ_FIREPILLAR,anytarget,80,10,10000,20,0,no,around8,always,,,,,,,,
-//30021,Levantine Aldehyde@WZ_GAN,any,483,1,10000,20,0,no,skill,expanded,e_always,,,,,,,
 
 30021,Lezard@EXPANDED_DHRES,idle,3049,60,10000,0,1000,no,self,onspawn,,,,,,,,
 //30021,Lezard@PR_RESURRECT,any,54,1,10000,0,1000,no,friend,expanded,ready_for_resu,,,,,,,
@@ -228,7 +226,6 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 30013,ULYSSE@EXPANDED_DHRES,idle,3049,60,10000,0,1000,no,self,onspawn,,,,,,,,
-//30013,Ulysse@SA_LANDPROTECT,any,288,5,10000,100,2000,no,skill,expanded,e_always,,,,,,,
 30013,Ulysse@SA_DISPEL,anytarget,289,5,10000,30,200,no,randomtarget,expanded,target_dispell,,,,,,,
 30013,Ulysse@SA_DISPEL,idle,289,5,10000,100,200,no,friend,expanded,friend_needs_dispell_idle,,,,,,,
 30013,Ulysse@SA_DISPEL,anytarget,289,5,10000,100,200,no,friend,expanded,friend_needs_dispell,,,,,,,
@@ -511,6 +508,5 @@
 30200,Soul Taker@ASC_EDP,any,378,5,10000,0,30000,yes,self,always,,,,,,,,
 
 30022,Darwinia@EXPANDED_DHRES,idle,3049,60,10000,0,1000,no,self,onspawn,,,,,,,,
-30022,Darwinia@SA_LANDPROTECT,any,288,5,10000,0,200,no,skill,expanded,e_always,,,,,,,
 30022,Darwinia@SA_LANDPROTECT,any,288,5,10000,0,200,no,friend,expanded,friend_needs_land,,,,,,,
 30022,Darwinia@MG_ENERGYCOAT,any,157,1,10000,10,10000,no,self,mystatusoff,energycoat,,,,,,,

@@ -235,7 +235,6 @@ const std::unordered_map<std::string, bl_type> um_bl_type_name2enumid{
 
 const std::unordered_map<std::string, e_mob_skill_target> skill_target_name2enumid{
 		{	"target",	MST_TARGET	},
-		{	"skill",	MST_SKILL	},
 		{	"randomtarget",	MST_RANDOM	},
 		{	"self",		MST_SELF	},
 		{	"friend",	MST_FRIEND	},
@@ -4284,16 +4283,6 @@ int mobskill_use(struct mob_data *md, t_tick tick, int event, int64 damage)
 							} else
 								flag = 0;
 							break;
-						case MST_SKILL:
-							if ((bl = battle_getskill(&md->bl, skill_range+bonus_range)) != NULL) {							
-								if (aggro_mod != 0 && md->ud.walktimer == INVALID_TIMER) {
-									unit_walktobl(&md->bl, bl, skill_range+1, 1);
-									unit_stop_walking(&md->bl, USW_MOVE_ONCE);
-								}
-								flag = 1;
-							} else
-								flag = 0;
-							break;
 						case MST_MASTER:
 							if (mbl == nullptr)
 								continue;
@@ -4352,9 +4341,6 @@ int mobskill_use(struct mob_data *md, t_tick tick, int event, int64 damage)
 		case MST_RANDOM://Pick a random enemy within skill range.
 			bl = bl ? bl : battle_getenemy(&md->bl, DEFAULT_ENEMY_TYPE(md),
 				skill_get_range2(&md->bl, ms[i]->skill_id, ms[i]->skill_lv, true));
-			break;
-		case MST_SKILL:
-			bl = bl ? bl : battle_getskill(&md->bl,skill_get_range2(&md->bl, ms[i]->skill_id, ms[i]->skill_lv, true));
 			break;
 		case MST_TARGET:
 		case MST_AROUND5:
