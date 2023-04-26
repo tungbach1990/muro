@@ -1888,6 +1888,8 @@
 	export_constant(SC_IMMUNE_PROPERTY_UNDEAD);
 	export_constant(SC_RELIEVE_ON);
 	export_constant(SC_RELIEVE_OFF);
+	export_constant(SC_RUSH_QUAKE1);
+	export_constant(SC_RUSH_QUAKE2);
 
 #ifdef RENEWAL
 	export_constant(SC_EXTREMITYFIST2);
@@ -10097,6 +10099,7 @@
 	export_constant(SCF_REMOVEONUNEQUIPWEAPON);
 	export_constant(SCF_REMOVEONUNEQUIPARMOR);
 	export_constant(SCF_REMOVEONHERMODE);
+	export_constant(SCF_REQUIRENOWEAPON);
 
 	/* enchantgrades */
 	export_constant(ENCHANTGRADE_NONE);
