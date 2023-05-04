@@ -2080,11 +2080,11 @@ static bool mob_ai_sub_hard(struct mob_data *md, t_tick tick)
 		if (md->bg_id && (mode & MD_CANATTACK || mode & MD_PCBEHAVIOR)) {//Search for allies 1/2
 			if (md->ud.walktimer != INVALID_TIMER)
 				return true;/* we are already moving */
-			map_foreachinallrange(mob_ai_sub_hard_bg_ally, &md->bl, view_range, BL_PC, md, &tbl, mode);
+			map_foreachinallrange(mob_ai_sub_hard_bg_ally, &md->bl, 20, BL_PC, md, &tbl, mode);
 			if (tbl) {
 				int idle_skill_interval = status_get_mode(&md->bl) & MD_PCBEHAVIOR ? battle_config.idle_skill_interval_pcbehavior : battle_config.idle_skill_interval;
-				if (distance_blxy(&md->bl, tbl->x, tbl->y) > 2) {
-					unit_walktobl(&md->bl, tbl, 1, 1);/* we're moving or close enough don't unlock the target. */
+				if (distance_blxy(&md->bl, tbl->x, tbl->y) > md->db->follow_range) {
+					unit_walktobl(&md->bl, tbl, md->db->follow_range, 1);/* we're moving or close enough don't unlock the target. */
 					return true;
 				} else if (mode & MD_PCBEHAVIOR){
 					if (++md->ud.walk_count % idle_skill_interval)
@@ -5139,6 +5139,18 @@ uint64 MobDatabase::parseBodyNode(const ryml::NodeRef& node) {
 	} else {
 		if (!exists)
 			mob->status.luk = 1;
+	}
+
+	if (this->nodeExists(node, "FollowRange")) {
+		uint16 range;
+
+		if (!this->asUInt16(node, "FollowRange", range))
+			return 0;
+
+		mob->follow_range = range;
+	} else {
+		if (!exists)
+			mob->follow_range = 1;
 	}
 
 	if (this->nodeExists(node, "AttackRange")) {
