@@ -1992,7 +1992,6 @@ int64 battle_calc_damage(struct block_list *src,struct block_list *bl,struct Dam
 		if (!battle_status_block_damage(src, bl, tsc, d, damage, skill_id, skill_lv)) // Statuses that reduce damage to 0.
 			return 0;
 	}
-
 	return damage;
 }
 
@@ -2327,7 +2326,6 @@ int64 battle_addmastery(map_session_data *sd,struct block_list *target,int64 dmg
 				damage += (skill * 3);
 			break;
 	}
-
 	return damage;
 }
 
@@ -7427,7 +7425,9 @@ struct Damage battle_calc_magic_attack(struct block_list *src,struct block_list 
 #define MATK_ADDRATE(a) { ad.damage += ad.damage * (a) / 100; }
 //Adds an absolute value to damage. 100 = +100 damage
 #define MATK_ADD(a) { ad.damage += a; }
-
+//Fix cap for damage
+#define DEFAULT_MATK_CAP 999999
+#define MATK_CAP(a) { ad.damage = cap_value(ad.damage,1,((a > DEFAULT_MATK_CAP) ? a : DEFAULT_MATK_CAP))); }
 		//Calc base damage according to skill
 		switch (skill_id) {
 			case AL_HEAL:
@@ -8493,8 +8493,18 @@ struct Damage battle_calc_magic_attack(struct block_list *src,struct block_list 
 		MATK_ADDRATE(skill_damage);
 
 	battle_absorb_damage(target, &ad);
-
 	//battle_do_reflect(BF_MAGIC,&ad, src, target, skill_id, skill_lv); //WIP [lighta] Magic skill has own handler at skill_attack
+	
+	if (sd->bonus.max_damage <= 0)
+		sd->bonus.max_damage = DEFAULT_MATK_CAP;
+	MATK_CAP(sd->bonus.max_damage);
+	
+	if (sd->bonus.max_damage_rate <= 0)
+		sd->bonus.max_damage_rate = 1;
+	
+	if ( rand()%100 < sd->bonus.max_damage_rate)
+		ad.damage = sd->bonus.max_damage;
+	
 	return ad;
 }
 

@@ -856,6 +856,8 @@
 	export_constant2("bAddItemSPHealRate", SP_ADD_ITEM_SPHEAL_RATE);
 	export_constant2("bAddItemGroupSPHealRate", SP_ADD_ITEMGROUP_SPHEAL_RATE);
 	export_constant2("bWeaponSubSize", SP_WEAPON_SUBSIZE);
+	export_constant2("bMaxDamage",SP_MAX_DAMAGE);
+	export_constant2("bMaxDamageRate",SP_MAX_DAMAGE_RATE);
 
 	/* equip indices */
 	export_constant(EQI_COMPOUND_ON);
