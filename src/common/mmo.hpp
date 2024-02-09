@@ -233,6 +233,7 @@ enum item_types {
 	IT_AMMO,    //10
 	IT_DELAYCONSUME,//11
 	IT_SHADOWGEAR,  //12
+	IT_CHARM, //13
 	IT_CASH = 18,
 	IT_MAX
 };
