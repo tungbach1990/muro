@@ -8495,14 +8495,27 @@ struct Damage battle_calc_magic_attack(struct block_list *src,struct block_list 
 	battle_absorb_damage(target, &ad);
 	//battle_do_reflect(BF_MAGIC,&ad, src, target, skill_id, skill_lv); //WIP [lighta] Magic skill has own handler at skill_attack
 	
-	if (sd->bonus.max_damage <= 0)
-		sd->bonus.max_damage = DEFAULT_MATK_CAP;
-	MATK_CAP(sd->bonus.max_damage);
+	sd.max_damage = (sd.max_damage <= 0) ? DEFAULT_MATK_CAP : MATK_CAP(sd->bonus.max_damage);
 	
-	if (sd->bonus.max_damage_rate <= 0)
-		sd->bonus.max_damage_rate = 1;
+	if (sd->bonus.max_damage_exceed > 0)
+		sd->bonus.max_damage = (int64)sd->bonus.max_damage * (100 + sd->bonus.max_damage_exceed) / 100 ;
 	
-	if ( rand()%100 < sd->bonus.max_damage_rate)
+	if (tsd->bonus.max_damage_pen_exceed > 0)
+		sd->bonus.max_damage = (int64)sd->bonus.max_damage * (100 - tsd->bonus.max_damage_pen_exceed) / 100 ;
+	
+	sd->bonus.max_rate = cap_value(sd->bonus.max_rate - tsd->bonus.max_pen_rate,1,sd->bonus.max_rate);
+
+	
+	if ( rand()%100 < (sd->bonus.max_pen_eva - tsd->bonus.max_eva)) {
+		ad.damage = 0;
+		return ad;
+	}
+	if ( rand()%100 < (sd->bonus.max_pen_block - tsd->bonus.max_block)) {
+		ad.damage = 1;
+		return ad;
+	}
+	
+	if ( rand()%100 < sd->bonus.max_rate)
 		ad.damage = sd->bonus.max_damage;
 	
 	return ad;

@@ -857,7 +857,16 @@
 	export_constant2("bAddItemGroupSPHealRate", SP_ADD_ITEMGROUP_SPHEAL_RATE);
 	export_constant2("bWeaponSubSize", SP_WEAPON_SUBSIZE);
 	export_constant2("bMaxDamage",SP_MAX_DAMAGE);
-	export_constant2("bMaxDamageRate",SP_MAX_DAMAGE_RATE);
+	export_constant2("bMaxRate",SP_MAX_RATE);
+	export_constant2("bLimitHP",SP_LIMIT_HP);
+	export_constant2("bLimitSP",SP_LIMIT_SP);
+	export_constant2("bMaxEva",SP_MAX_EVA);
+	export_constant2("bMaxBlock",SP_MAX_BLOCK);
+	export_constant2("bMaxPenEva",SP_MAX_PEN_EVA);
+	export_constant2("bMaxPenBlock",SP_MAX_PEN_BLOCK);
+	export_constant2("bMaxPenRate",SP_MAX_PEN_RATE);
+	export_constant2("bMaxDamageExceed",SP_MAX_DAMAGE_EXCEED);
+	export_constant2("bMaxDamagePenExceed",SP_MAX_DAMAGE_PEN_EXCEED);
 
 	/* equip indices */
 	export_constant(EQI_COMPOUND_ON);

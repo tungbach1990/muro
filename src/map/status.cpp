@@ -4207,7 +4207,10 @@ int status_calc_pc_sub(map_session_data* sd, uint8 opt)
 	else if (sd->status.base_level < 151)
 		base_status->max_hp = cap_value(base_status->max_hp,1,(unsigned int)battle_config.max_hp_lv150);
 	else
-		base_status->max_hp = cap_value(base_status->max_hp,1,(unsigned int)battle_config.max_hp);
+		if (sd->bonus.limit_hp == 0)
+			base_status->max_hp = cap_value(base_status->max_hp,1,(unsigned int)battle_config.max_hp);
+		else
+			base_status->max_hp = cap_value(base_status->max_hp,1,(unsigned int)battle_config.max_hp*100);
 
 // ----- SP MAX CALCULATION -----
 	base_status->max_sp = sd->status.max_sp = status_calc_maxhpsp_pc(sd,base_status->int_,false);
@@ -4215,7 +4218,10 @@ int status_calc_pc_sub(map_session_data* sd, uint8 opt)
 	if(battle_config.sp_rate != 100)
 		base_status->max_sp = (unsigned int)(battle_config.sp_rate * (base_status->max_sp/100.));
 
-	base_status->max_sp = cap_value(base_status->max_sp,1,(unsigned int)battle_config.max_sp);
+	if (sd->bonus.limit_sp == 0)
+		base_status->max_sp = cap_value(base_status->max_sp,1,(unsigned int)battle_config.max_sp);
+	else
+		base_status->max_sp = cap_value(base_status->max_sp,1,(unsigned int)battle_config.max_sp*100);
 
 // ----- AP MAX CALCULATION -----
 	base_status->max_ap = sd->status.max_ap = status_calc_maxap_pc(sd);
