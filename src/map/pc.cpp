@@ -6032,6 +6032,7 @@ enum e_additem_result pc_additem(map_session_data *sd,struct item *item,int amou
  *------------------------------------------*/
 char pc_delitem(map_session_data *sd,int n,int amount,int type, short reason, e_log_pick_type log_type)
 {
+	int mem = 0;
 	nullpo_retr(1, sd);
 
 	if(n < 0 || sd->inventory.u.items_inventory[n].nameid == 0 || amount <= 0 || sd->inventory.u.items_inventory[n].amount<amount || sd->inventory_data[n] == NULL)
