@@ -6044,6 +6044,7 @@ char pc_delitem(map_session_data *sd,int n,int amount,int type, short reason, e_
 	if( sd->inventory.u.items_inventory[n].amount <= 0 ){
 		if(sd->inventory.u.items_inventory[n].equip)
 			pc_unequipitem(sd,n,2|(!(type&4) ? 1 : 0));
+		mem = sd->inventory_data[n]->type;
 		memset(&sd->inventory.u.items_inventory[n],0,sizeof(sd->inventory.u.items_inventory[0]));
 		sd->inventory_data[n] = NULL;
 	}
