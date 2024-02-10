@@ -8500,21 +8500,6 @@ struct Damage battle_calc_magic_attack(struct block_list *src,struct block_list 
 	if (sd->bonus.max_damage_exceed > 0)
 		sd->bonus.max_damage = (int64)sd->bonus.max_damage * (100 + sd->bonus.max_damage_exceed) / 100 ;
 	
-	if (tsd->bonus.max_damage_pen_exceed > 0)
-		sd->bonus.max_damage = (int64)sd->bonus.max_damage * (100 - tsd->bonus.max_damage_pen_exceed) / 100 ;
-	
-	sd->bonus.max_rate = cap_value(sd->bonus.max_rate - tsd->bonus.max_pen_rate,1,sd->bonus.max_rate);
-
-	
-	if ( rand()%100 < (sd->bonus.max_pen_eva - tsd->bonus.max_eva)) {
-		ad.damage = 0;
-		return ad;
-	}
-	if ( rand()%100 < (sd->bonus.max_pen_block - tsd->bonus.max_block)) {
-		ad.damage = 1;
-		return ad;
-	}
-	
 	if ( rand()%100 < sd->bonus.max_rate)
 		ad.damage = sd->bonus.max_damage;
 	
