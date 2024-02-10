@@ -673,8 +673,8 @@ public:
 		uint8 absorb_dmg_maxhp2;
 		short critical_rangeatk;
 		short weapon_atk_rate, weapon_matk_rate;
-		int64 max_damage : 999999;
-		int max_rate : 1;
+		int64 max_damage;
+		int max_rate;
 		unsigned int limit_hp : 1;
 		unsigned int limit_sp : 1;
 		int max_eva;
