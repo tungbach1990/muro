@@ -4,7 +4,8 @@ M_SRV=map-server
 W_SRV=web-server
 INST_PATH=/opt
 PKG=rathena
-PKG_PATH="${INST_PATH}/${PKG}"
+#PKG_PATH="${INST_PATH}/${PKG}"
+PKG_PATH=$(pwd)
 
 check_files() {
     for i in ${L_SRV} ${C_SRV} ${M_SRV} ${W_SRV}
