@@ -8495,7 +8495,7 @@ struct Damage battle_calc_magic_attack(struct block_list *src,struct block_list 
 	battle_absorb_damage(target, &ad);
 	//battle_do_reflect(BF_MAGIC,&ad, src, target, skill_id, skill_lv); //WIP [lighta] Magic skill has own handler at skill_attack
 	
-	sd->bonus.max_damage = (sd->bonus.max_damage <= 0) ? DEFAULT_MATK_CAP : MATK_CAP(sd->bonus.max_damage);
+	(sd->bonus.max_damage <= 0) ? sd->bonus.max_damage = DEFAULT_MATK_CAP : MATK_CAP(sd->bonus.max_damage);
 	
 	if (sd->bonus.max_damage_exceed > 0)
 		sd->bonus.max_damage = (int64)sd->bonus.max_damage * (100 + sd->bonus.max_damage_exceed) / 100 ;
