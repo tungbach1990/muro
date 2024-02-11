@@ -1,0 +1,34 @@
+login_server_ip: 127.0.0.1
+ipban_db_ip: 127.0.0.1
+char_server_ip: 127.0.0.1
+map_server_ip: 127.0.0.1
+log_db_ip: 127.0.0.1
+use_sql_db: yes
+
+login_server_id: rathena4444
+login_server_pw: Cntt@123
+login_server_db: vietrag_rathena1
+
+
+ipban_db_id: rathena4444
+ipban_db_pw: Cntt@123
+ipban_db_db: vietrag_rathena1
+
+char_server_id: rathena4444
+char_server_pw: Cntt@123
+char_server_db: vietrag_rathena1
+
+map_server_id: rathena4444
+map_server_pw: Cntt@123
+map_server_db: vietrag_rathena1
+
+log_db_id: rathena4444
+log_db_pw: Cntt@123
+log_db_db: vietrag_log
+
+// MySQL Web Server
+web_server_ip: 127.0.0.1
+web_server_port: 3306
+web_server_id: rathena4444
+web_server_pw: Cntt@123
+web_server_db: vietrag_rathena1

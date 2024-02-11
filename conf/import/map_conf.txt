@@ -1,0 +1,3 @@
+char_ip: 127.0.0.1
+map_ip: jor86.ddns.net
+console_msg_log: 7
