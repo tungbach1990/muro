@@ -8492,15 +8492,6 @@ struct Damage battle_calc_magic_attack(struct block_list *src,struct block_list 
 
 	battle_absorb_damage(target, &ad);
 	//battle_do_reflect(BF_MAGIC,&ad, src, target, skill_id, skill_lv); //WIP [lighta] Magic skill has own handler at skill_attack
-	int64 max_damage = 0;
-	max_damage = 100000*sd->bonus.max_damage*sd->bonus.max_damage - 1;
-	max_damage = cap_value(max_damage,99999,199999999);
-	if (sd->bonus.max_damage_exceed > 0)
-		max_damage = (int64)max_damage * (100 + sd->bonus.max_damage_exceed) / 100 ;
-	if ( rand()%100 < sd->bonus.max_rate){
-		ad.damage = max_damage;
-		ad.isspdamage = true;
-		}
 	return ad;
 }
 
@@ -8947,6 +8938,18 @@ struct Damage battle_calc_attack(int attack_type,struct block_list *bl,struct bl
 			ShowError("battle_calc_attack: unknown attack type! %d (skill_id=%d, skill_lv=%d)\n", attack_type, skill_id, skill_lv);
 			memset(&d,0,sizeof(d));
 			break;
+		}
+	struct status_data *sstatus = status_get_status_data(bl);
+	TBL_PC *bl;
+	sd = BL_CAST(BL_PC, bl);
+	int64 max_damage = 0;
+	max_damage = 100000*sd->bonus.max_damage*sd->bonus.max_damage - 1;
+	max_damage = cap_value(max_damage,99999,199999999);
+	if (sd->bonus.max_damage_exceed > 0)
+		max_damage = (int64)max_damage * (100 + sd->bonus.max_damage_exceed) / 100 ;
+	if ( rand()%100 < sd->bonus.max_rate){
+		d.damage = max_damage;
+		d.isspdamage = true;
 		}
 	if( d.damage + d.damage2 < 1 )
 	{	//Miss/Absorbed
