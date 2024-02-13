@@ -20966,6 +20966,7 @@ Body:
       Weapon:
         Katar: true
     Status: RollingCutter
+
   - Id: 2037
     Name: GC_CROSSRIPPERSLASHER
     Description: Cross Ripper Slasher
@@ -20987,17 +20988,17 @@ Body:
     HitCount: 1
     Element: Weapon
     AfterCastActDelay: 300
-    #Cooldown: # !TODO: Confirm cooldown
-      - Level: 1
-        Time: 0
-      - Level: 1
-        Time: 50
-      - Level: 1
-        Time: 100
-      - Level: 1
-        Time: 150
-      - Level: 1
-        Time: 200
+#    Cooldown:
+#      - Level: 1
+#        Time: 0
+#      - Level: 1
+#        Time: 50
+#      - Level: 1
+#        Time: 100
+#      - Level: 1
+#        Time: 150
+#      - Level: 1
+#        Time: 200
     Requires:
       SpCost:
         - Level: 1

@@ -7426,8 +7426,6 @@ struct Damage battle_calc_magic_attack(struct block_list *src,struct block_list 
 //Adds an absolute value to damage. 100 = +100 damage
 #define MATK_ADD(a) { ad.damage += a; }
 //Fix cap for damage
-#define DEFAULT_MATK_CAP 99999
-#define MATK_CAP(a) { max_damage = DEFAULT_MATK_CAP + 100000*a*a; }
 		//Calc base damage according to skill
 		switch (skill_id) {
 			case AL_HEAL:
@@ -8494,12 +8492,15 @@ struct Damage battle_calc_magic_attack(struct block_list *src,struct block_list 
 
 	battle_absorb_damage(target, &ad);
 	//battle_do_reflect(BF_MAGIC,&ad, src, target, skill_id, skill_lv); //WIP [lighta] Magic skill has own handler at skill_attack
-	int max_damage = 0;
-	MATK_CAP(sd->bonus.max_damage);
+	int64 max_damage = 0;
+	max_damage = 100000*sd->bonus.max_damage*sd->bonus.max_damage - 1;
+	max_damage = cap_value(max_damage,99999,199999999);
 	if (sd->bonus.max_damage_exceed > 0)
-		max_damage = (int64)sd->bonus.max_damage * (100 + sd->bonus.max_damage_exceed) / 100 ;
-	if ( rand()%100 < sd->bonus.max_rate)
+		max_damage = (int64)max_damage * (100 + sd->bonus.max_damage_exceed) / 100 ;
+	if ( rand()%100 < sd->bonus.max_rate){
 		ad.damage = max_damage;
+		ad.isspdamage = true;
+		}
 	return ad;
 }
 
@@ -9495,7 +9496,7 @@ enum damage_lv battle_weapon_attack(struct block_list* src, struct block_list* t
 			if (status_charge(src, 0, 20)) {
 				if (!is_infinite_defense(target, wd.flag)) {
 					struct Damage ad = battle_calc_attack(BF_MAGIC, src, target, sc->getSCE(SC_SPELLFIST)->val2, sc->getSCE(SC_SPELLFIST)->val3, flag | BF_SHORT);
-
+					wd.isspdamage = ad.isspdamage;
 					wd.damage = ad.damage;
 					DAMAGE_DIV_FIX(wd.damage, wd.div_); // Double the damage for multiple hits.
 				} else {
@@ -9595,7 +9596,7 @@ enum damage_lv battle_weapon_attack(struct block_list* src, struct block_list* t
 					if (d_sc && d_sc->getSCE(SC_REBOUND_S))
 						devotion_damage -= devotion_damage * d_sc->getSCE(SC_REBOUND_S)->val2 / 100;
 
-					clif_damage(d_bl, d_bl, gettick(), wd.amotion, wd.dmotion, devotion_damage, 1, DMG_NORMAL, 0, false);
+					clif_damage(d_bl, d_bl, gettick(), wd.amotion, wd.dmotion, devotion_damage, 1, DMG_NORMAL, 0, wd.isspdamage);
 					status_fix_damage(NULL, d_bl, devotion_damage, 0, CR_DEVOTION);
 				}
 			}
