@@ -7427,7 +7427,7 @@ struct Damage battle_calc_magic_attack(struct block_list *src,struct block_list 
 #define MATK_ADD(a) { ad.damage += a; }
 //Fix cap for damage
 #define DEFAULT_MATK_CAP 99999
-#define MATK_CAP(a) { int max_damage = DEFAULT_MATK_CAP + 100000*a*a; }
+#define MATK_CAP(a) { max_damage = DEFAULT_MATK_CAP + 100000*a*a; }
 		//Calc base damage according to skill
 		switch (skill_id) {
 			case AL_HEAL:
@@ -8494,7 +8494,7 @@ struct Damage battle_calc_magic_attack(struct block_list *src,struct block_list 
 
 	battle_absorb_damage(target, &ad);
 	//battle_do_reflect(BF_MAGIC,&ad, src, target, skill_id, skill_lv); //WIP [lighta] Magic skill has own handler at skill_attack
-	
+	int max_damage = 0;
 	MATK_CAP(sd->bonus.max_damage);
 	if (sd->bonus.max_damage_exceed > 0)
 		max_damage = (int64)sd->bonus.max_damage * (100 + sd->bonus.max_damage_exceed) / 100 ;
