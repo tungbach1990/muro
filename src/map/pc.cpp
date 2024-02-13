@@ -4416,15 +4416,15 @@ void pc_bonus(map_session_data *sd,int type,int val)
 			break;
 		case SP_MAX_PEN_RATE:
 			if(sd->state.lr_flag != 2)
-				sd->bonus.max_pen_rate = val;
+				sd->bonus.max_pen_rate += val;
 			break;
 		case SP_MAX_DAMAGE_EXCEED:
 			if(sd->state.lr_flag != 2)
-				sd->bonus.max_damage_exceed = val;
+				sd->bonus.max_damage_exceed += val;
 			break;
 		case SP_MAX_DAMAGE_PEN_EXCEED:
 			if(sd->state.lr_flag != 2)
-				sd->bonus.max_damage_pen_exceed = val;
+				sd->bonus.max_damage_pen_exceed += val;
 			break;
 		default:
 			if (current_equip_combo_pos > 0) {
