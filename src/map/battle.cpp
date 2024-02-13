@@ -8939,9 +8939,8 @@ struct Damage battle_calc_attack(int attack_type,struct block_list *bl,struct bl
 			memset(&d,0,sizeof(d));
 			break;
 		}
-	struct status_data *sstatus = status_get_status_data(bl);
-	TBL_PC *bl;
-	sd = BL_CAST(BL_PC, bl);
+	map_session_data *sd = BL_CAST(BL_PC, bl);
+	if (sd){
 	int64 max_damage = 0;
 	max_damage = 100000*sd->bonus.max_damage*sd->bonus.max_damage - 1;
 	max_damage = cap_value(max_damage,99999,199999999);
@@ -8951,6 +8950,7 @@ struct Damage battle_calc_attack(int attack_type,struct block_list *bl,struct bl
 		d.damage = max_damage;
 		d.isspdamage = true;
 		}
+	}
 	if( d.damage + d.damage2 < 1 )
 	{	//Miss/Absorbed
 		//Weapon attacks should go through to cause additional effects.
@@ -8975,7 +8975,7 @@ struct Damage battle_calc_attack(int attack_type,struct block_list *bl,struct bl
 	else // Some skills like Weaponry Research will cause damage even if attack is dodged
 		d.dmg_lv = ATK_DEF;
 
-	map_session_data *sd = BL_CAST(BL_PC, bl);
+//	map_session_data *sd = BL_CAST(BL_PC, bl);
 
 	if (sd && d.damage + d.damage2 > 1)
 		battle_vanish_damage(sd, target, d.flag);
