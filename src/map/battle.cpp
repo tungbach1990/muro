@@ -6577,7 +6577,7 @@ static void battle_calc_weapon_final_atk_modifiers(struct Damage* wd, struct blo
 	{
 		ATK_RATER(wd->damage, 50)
 		clif_skill_nodamage(target,target,ST_REJECTSWORD, tsc->getSCE(SC_REJECTSWORD)->val1,1);
-		status_fix_damage(target,src,wd->damage,clif_damage(target,src,gettick(),0,0,wd->damage,0,DMG_NORMAL,0,false),ST_REJECTSWORD);
+		status_fix_damage(target,src,wd->damage,clif_damage(target,src,gettick(),0,0,wd->damage,0,DMG_NORMAL,0,wd->isspdamage),ST_REJECTSWORD);
 		if (status_isdead(target))
 			return;
 		if( --(tsc->getSCE(SC_REJECTSWORD)->val3) <= 0 )
@@ -6594,7 +6594,7 @@ static void battle_calc_weapon_final_atk_modifiers(struct Damage* wd, struct blo
 		skill_blown(target, src, skill_get_blewcount(SR_CRESCENTELBOW_AUTOSPELL, tsc->getSCE(SC_CRESCENTELBOW)->val1), unit_getdir(src), BLOWN_NONE);
 		clif_skill_damage(target, src, gettick(), status_get_amotion(src), 0, rdamage,
 			1, SR_CRESCENTELBOW_AUTOSPELL, tsc->getSCE(SC_CRESCENTELBOW)->val1, DMG_SINGLE); // This is how official does
-		clif_damage(src, target, gettick(), status_get_amotion(src)+1000, 0, rdamage/10, 1, DMG_NORMAL, 0, false);
+		clif_damage(src, target, gettick(), status_get_amotion(src)+1000, 0, rdamage/10, 1, DMG_NORMAL, 0, wd->isspdamage);
 		status_damage(target, src, rdamage, 0, 0, 0, 0);
 		status_damage(src, target, rdamage/10, 0, 0, 1, 0);
 		status_change_end(target, SC_CRESCENTELBOW);
@@ -9618,7 +9618,7 @@ enum damage_lv battle_weapon_attack(struct block_list* src, struct block_list* t
 			struct block_list *e_bl = map_id2bl(tsc->getSCE(SC_WATER_SCREEN_OPTION)->val1);
 
 			if (e_bl && !status_isdead(e_bl)) {
-				clif_damage(e_bl, e_bl, tick, 0, 0, damage, wd.div_, DMG_NORMAL, 0, false);
+				clif_damage(e_bl, e_bl, tick, 0, 0, damage, wd.div_, DMG_NORMAL, 0, wd.isspdamage);
 				status_fix_damage(NULL, e_bl, damage, 0, EL_WATER_SCREEN);
 			}
 		}
