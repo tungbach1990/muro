@@ -6049,7 +6049,8 @@ int clif_skill_damage(struct block_list *src,struct block_list *dst,t_tick tick,
 
 	nullpo_ret(src);
 	nullpo_ret(dst);
-
+	if (type == DMG_MAX_DAMAGE)
+		skill_id = TK_STORMKICK;
 	type = clif_calc_delay(type,div,damage,ddelay);
 
 	if( ( sc = status_get_sc(dst) ) && sc->count ) {
