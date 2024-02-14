@@ -9344,8 +9344,8 @@ struct Damage battle_calc_attack(int attack_type,struct block_list *bl,struct bl
 			memset(&d,0,sizeof(d));
 			break;
 		}
-	if (attack_type != BF_NORMAL) {
-		map_session_data *sd = BL_CAST(BL_PC, bl);
+	map_session_data *sd = BL_CAST(BL_PC, bl);
+	if (skill_id) {
 		if (sd){
 		int64 max_damage = 0;
 		max_damage = 100000*sd->bonus.max_damage*sd->bonus.max_damage - 1;
@@ -9355,6 +9355,7 @@ struct Damage battle_calc_attack(int attack_type,struct block_list *bl,struct bl
 		if ( rand()%100 < sd->bonus.max_rate){
 			d.damage = max_damage;
 			d.isspdamage = true;
+			d.type = DMG_MAX_DAMAGE;
 			}
 		}
 	}

@@ -5215,6 +5215,8 @@ static int clif_hallucination_damage()
 ///     13 = multi-hit critical
 int clif_damage(struct block_list* src, struct block_list* dst, t_tick tick, int sdelay, int ddelay, int64 sdamage, int div, enum e_damage_type type, int64 sdamage2, bool spdamage)
 {
+	if (type == DMG_MAX_DAMAGE)
+		spdamage = true;
 	unsigned char buf[34];
 	status_change *sc;
 	int damage = (int)cap_value(sdamage,INT_MIN,INT_MAX);
