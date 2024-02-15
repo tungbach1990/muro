@@ -3831,7 +3831,9 @@ void clif_updatestatus(map_session_data *sd,int type)
 		// 4th job status are not supported by older clients
 		return;
 #endif
-
+	case SP_REBORN: // Adding this back, I wonder if the client intercepts this - [Lance]
+		WFIFOL(fd,4)=sd->status.reborn;
+		break;
 	default:
 		ShowError("clif_updatestatus : unrecognized type %d\n",type);
 		return;
