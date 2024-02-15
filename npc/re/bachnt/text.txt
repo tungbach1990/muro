@@ -1,5 +1,6 @@
 prontera,150,150,6	script	Woman	115,{
-		mes "[Woman]"
+		mes "[Woman]";
+		mes Zeny;
 		mes Reborn;
 		close;
 	}
