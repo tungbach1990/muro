@@ -299,7 +299,7 @@ int char_mmo_char_tosql(uint32 char_id, struct mmo_charstatus* p){
 		(p->show_equip != cp->show_equip) || (p->hotkey_rowshift2 != cp->hotkey_rowshift2) ||
 		(p->max_ap != cp->max_ap) || (p->ap != cp->ap) || (p->trait_point != cp->trait_point) ||
 		(p->pow != cp->pow) || (p->sta != cp->sta) || (p->wis != cp->wis) ||
-		(p->spl != cp->spl) || (p->con != cp->con) || (p->crt != cp->crt)
+		(p->spl != cp->spl) || (p->con != cp->con) || (p->crt != cp->crt) || (p->reborn != cp->reborn)
 	)
 	{	//Save status
 		if( SQL_ERROR == Sql_Query(sql_handle, "UPDATE `%s` SET `base_level`='%d', `job_level`='%d',"
@@ -313,7 +313,7 @@ int char_mmo_char_tosql(uint32 char_id, struct mmo_charstatus* p){
 			"`delete_date`='%lu',`robe`='%d',`moves`='%d',`font`='%u',`uniqueitem_counter`='%u',"
 			"`hotkey_rowshift`='%d', `clan_id`='%d', `title_id`='%lu', `show_equip`='%d', `hotkey_rowshift2`='%d',"
 			"`max_ap`='%u',`ap`='%u',`trait_point`='%d',"
-			"`pow`='%d',`sta`='%d',`wis`='%d',`spl`='%d',`con`='%d',`crt`='%d'"
+			"`pow`='%d',`sta`='%d',`wis`='%d',`spl`='%d',`con`='%d',`crt`='%d',`reborn`='%d'"
 			" WHERE `account_id`='%d' AND `char_id` = '%d'",
 			schema_config.char_db, p->base_level, p->job_level,
 			p->base_exp, p->job_exp, p->zeny,
@@ -327,7 +327,7 @@ int char_mmo_char_tosql(uint32 char_id, struct mmo_charstatus* p){
 			p->robe, p->character_moves, p->font, p->uniqueitem_counter,
 			p->hotkey_rowshift, p->clan_id, p->title_id, p->show_equip, p->hotkey_rowshift2,
 			p->max_ap, p->ap, p->trait_point,
-			p->pow, p->sta, p->wis, p->spl, p->con, p->crt,
+			p->pow, p->sta, p->wis, p->spl, p->con, p->crt,p->reborn
 			p->account_id, p->char_id) )
 		{
 			Sql_ShowDebug(sql_handle);
@@ -936,8 +936,8 @@ int char_mmo_chars_fromsql(struct char_session_data* sd, uint8* buf, uint8* coun
 		"`clothes_color`,`body`,`weapon`,`shield`,`head_top`,`head_mid`,`head_bottom`,`last_map`,`rename`,`delete_date`,"
 		"`robe`,`moves`,`unban_time`,`font`,`uniqueitem_counter`,`sex`,`hotkey_rowshift`,`title_id`,`show_equip`,"
 		"`hotkey_rowshift2`,"
-		"`max_ap`,`ap`,`trait_point`,`pow`,`sta`,`wis`,`spl`,`con`,`crt`,"
-		"`inventory_slots`,`body_direction`,`disable_call`,`reborn`"
+		"`max_ap`,`ap`,`trait_point`,`pow`,`sta`,`wis`,`spl`,`con`,`crt`,`reborn`"
+		"`inventory_slots`,`body_direction`,`disable_call`"
 		" FROM `%s` WHERE `account_id`='%d' AND `char_num` < '%d'", schema_config.char_db, sd->account_id, MAX_CHARS)
 	||	SQL_ERROR == SqlStmt_Execute(stmt)
 	||	SQL_ERROR == SqlStmt_BindColumn(stmt, 0,  SQLDT_INT,    &p.char_id, 0, NULL, NULL)
@@ -1062,7 +1062,7 @@ int char_mmo_char_fromsql(uint32 char_id, struct mmo_charstatus* p, bool load_ev
 		"`hair_color`,`clothes_color`,`body`,`weapon`,`shield`,`head_top`,`head_mid`,`head_bottom`,`last_map`,`last_x`,`last_y`,"
 		"`save_map`,`save_x`,`save_y`,`partner_id`,`father`,`mother`,`child`,`fame`,`rename`,`delete_date`,`robe`, `moves`,"
 		"`unban_time`,`font`,`uniqueitem_counter`,`sex`,`hotkey_rowshift`,`clan_id`,`title_id`,`show_equip`,`hotkey_rowshift2`,"
-		"`max_ap`,`ap`,`trait_point`,`pow`,`sta`,`wis`,`spl`,`con`,`crt`,"
+		"`max_ap`,`ap`,`trait_point`,`pow`,`sta`,`wis`,`spl`,`con`,`crt`,`reborn`,"
 		"`inventory_slots`,`body_direction`,`disable_call`,`reborn`,`last_instanceid`"
 		" FROM `%s` WHERE `char_id`=? LIMIT 1", schema_config.char_db)
 	||	SQL_ERROR == SqlStmt_BindParam(stmt, 0, SQLDT_INT, &char_id, 0)
@@ -2334,7 +2334,7 @@ bool char_checkdb(void){
 		"`save_x`,`save_y`,`partner_id`,`online`,`father`,`mother`,`child`,`fame`,`rename`,`delete_date`,"
 		"`moves`,`unban_time`,`font`,`sex`,`hotkey_rowshift`,`clan_id`,`last_login`,`title_id`,`show_equip`,"
 		"`hotkey_rowshift2`,"
-		"`max_ap`,`ap`,`trait_point`,`pow`,`sta`,`wis`,`spl`,`con`,`crt`,"
+		"`max_ap`,`ap`,`trait_point`,`pow`,`sta`,`wis`,`spl`,`con`,`crt`,`reborn`,"
 		"`inventory_slots`,`body_direction`,`disable_call`,`reborn`,`last_instanceid`"
 		" FROM `%s` LIMIT 1;", schema_config.char_db) ){
 		Sql_ShowDebug(sql_handle);
