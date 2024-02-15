@@ -588,6 +588,7 @@
 	export_parameter("Karma",SP_KARMA);
 	export_parameter("Manner",SP_MANNER);
 	export_parameter("NextBaseExp",SP_NEXTBASEEXP);
+	export_parameter("Reborn",SP_REBORN);
 	export_parameter("NextJobExp",SP_NEXTJOBEXP);
 	export_parameter("Hp",SP_HP);
 	export_parameter("MaxHp",SP_MAXHP);
@@ -867,6 +868,7 @@
 	export_constant2("bMaxPenRate",SP_MAX_PEN_RATE);
 	export_constant2("bMaxDamageExceed",SP_MAX_DAMAGE_EXCEED);
 	export_constant2("bMaxDamagePenExceed",SP_MAX_DAMAGE_PEN_EXCEED);
+	export_constant2("bAddReborn",SP_ADDREBORN);
 
 	/* equip indices */
 	export_constant(EQI_COMPOUND_ON);
