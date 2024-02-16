@@ -591,7 +591,6 @@ struct mmo_charstatus {
 
 	char name[NAME_LENGTH];
 	unsigned int base_level,job_level;
-	unsigned int reborn;
 	unsigned short str,agi,vit,int_,dex,luk;
 	unsigned short pow,sta,wis,spl,con,crt;
 	unsigned char slot,sex;

@@ -9354,6 +9354,8 @@ struct Damage battle_calc_attack(int attack_type,struct block_list *bl,struct bl
 			max_damage = (int64)max_damage * (100 + sd->bonus.max_damage_exceed) / 100 ;
 		if ( rand()%100 < sd->bonus.max_rate){
 			d.damage = max_damage;
+			d.isspdamage = true;
+			d.type = DMG_MAX_DAMAGE;
 			}
 		}
 	}

@@ -588,7 +588,6 @@
 	export_parameter("Karma",SP_KARMA);
 	export_parameter("Manner",SP_MANNER);
 	export_parameter("NextBaseExp",SP_NEXTBASEEXP);
-	export_parameter("Reborn",SP_REBORN);
 	export_parameter("NextJobExp",SP_NEXTJOBEXP);
 	export_parameter("Hp",SP_HP);
 	export_parameter("MaxHp",SP_MAXHP);

@@ -631,7 +631,6 @@ public:
 	// zeroed vars start here.
 	struct s_bonus {
 		int hp, sp, ap;
-		int reborn;
 		int atk_rate;
 		int arrow_atk,arrow_ele,arrow_cri,arrow_hit;
 		int nsshealhp,nsshealsp;

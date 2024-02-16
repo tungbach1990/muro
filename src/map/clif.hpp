@@ -596,7 +596,8 @@ enum e_damage_type : uint8_t {
 	DMG_CRITICAL,			/// critical hit
 	DMG_LUCY_DODGE,			/// lucky dodge
 	DMG_TOUCH,				/// (touch skill?)
-	DMG_MULTI_HIT_CRITICAL /// multi-hit with critical
+	DMG_MULTI_HIT_CRITICAL, /// multi-hit with critical
+	DMG_MAX_DAMAGE			/// bachnt max_damage custom
 };
 
 enum class e_pet_evolution_result : uint32 {

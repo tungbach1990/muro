@@ -9524,14 +9524,6 @@ ACMD_FUNC(stats)
 		{ "JobChangeLvl (2nd) - %d", 0 },
 		{ "JobChangeLvl (3rd) - %d", 0 },
 		{ "JobChangeLvl (4th) - %d", 0 },
-		{ "Max Damage Rate - %d", 0 },
-		{ "Max Damage Level - %d", 0 },
-		{ "Max Damage Exceed - %d", 0 },
-		{ "Max Damage Eva - %d", 0 },
-		{ "Max Damage Block - %d", 0 },
-		{ "Max Damage Penalty Eva - %d", 0 },
-		{ "Max Damage Penalty Block - %d", 0 },
-		{ "Reborn - %d", 0 },
 		{ NULL, 0 }
 	};
 
@@ -9567,14 +9559,6 @@ ACMD_FUNC(stats)
 	output_table[24].value = sd->change_level_2nd;
 	output_table[25].value = sd->change_level_3rd;
 	output_table[26].value = sd->change_level_4th;
-	output_table[27].value = sd->bonus.max_rate;
-	output_table[28].value = sd->bonus.max_damage;
-	output_table[29].value = sd->bonus.max_damage_exceed;
-	output_table[30].value = sd->bonus.max_eva;
-	output_table[31].value = sd->bonus.max_block;
-	output_table[32].value = sd->bonus.max_pen_eva;
-	output_table[33].value = sd->bonus.max_pen_block;
-	output_table[34].value = sd->status.reborn;
 
 	sprintf(job_jobname, "Job - %s %s", job_name(sd->status.class_), "(level %d)");
 	sprintf(output, msg_txt(sd,53), sd->status.name); // '%s' stats:

@@ -3831,9 +3831,7 @@ void clif_updatestatus(map_session_data *sd,int type)
 		// 4th job status are not supported by older clients
 		return;
 #endif
-	case SP_REBORN: // Adding this back, I wonder if the client intercepts this - [Lance]
-		WFIFOL(fd,4)=sd->status.reborn;
-		break;
+
 	default:
 		ShowError("clif_updatestatus : unrecognized type %d\n",type);
 		return;
@@ -5217,6 +5215,8 @@ static int clif_hallucination_damage()
 ///     13 = multi-hit critical
 int clif_damage(struct block_list* src, struct block_list* dst, t_tick tick, int sdelay, int ddelay, int64 sdamage, int div, enum e_damage_type type, int64 sdamage2, bool spdamage)
 {
+	if (type == DMG_MAX_DAMAGE)
+		spdamage = true;
 	unsigned char buf[34];
 	status_change *sc;
 	int damage = (int)cap_value(sdamage,INT_MIN,INT_MAX);
@@ -6049,6 +6049,8 @@ int clif_skill_damage(struct block_list *src,struct block_list *dst,t_tick tick,
 
 	nullpo_ret(src);
 	nullpo_ret(dst);
+	if (type == DMG_MAX_DAMAGE)
+		skill_id = TK_STORMKICK;
 	type = clif_calc_delay(type,div,damage,ddelay);
 
 	if( ( sc = status_get_sc(dst) ) && sc->count ) {
