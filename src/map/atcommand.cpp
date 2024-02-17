@@ -9530,7 +9530,8 @@ ACMD_FUNC(stats)
 		{ "Max Damage Eva - %d", 0 },
 		{ "Max Damage Block - %d", 0 },
 		{ "Max Damage Penalty Eva - %d", 0 },
-		{ "Max Damage Penalty Block - %d", 0 }		
+		{ "Max Damage Penalty Block - %d", 0 },		
+		{ "Reborn - %d", 0 },	
 		{ NULL, 0 }
 	};
 
@@ -9573,6 +9574,7 @@ ACMD_FUNC(stats)
 	output_table[31].value = sd->bonus.max_block;
 	output_table[32].value = sd->bonus.max_pen_eva;
 	output_table[33].value = sd->bonus.max_pen_block;	
+	output_table[34].value = sd->status.reborn;	
 
 	sprintf(job_jobname, "Job - %s %s", job_name(sd->status.class_), "(level %d)");
 	sprintf(output, msg_txt(sd,53), sd->status.name); // '%s' stats:
