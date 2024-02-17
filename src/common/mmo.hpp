@@ -567,6 +567,7 @@ struct mmo_charstatus {
 
 	t_exp base_exp,job_exp;
 	int zeny;
+	int reborn;
 
 	short class_; ///< Player's JobID
 	unsigned int status_point,skill_point,trait_point;
