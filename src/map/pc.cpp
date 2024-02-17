@@ -10505,7 +10505,7 @@ bool pc_setparam(map_session_data *sd,int64 type,int64 val_tmp)
 		sd->cook_mastery = val;
 		pc_setglobalreg(sd, add_str(COOKMASTERY_VAR), sd->cook_mastery);
 		return true;
-	case SP_SKILLPOINT:
+	case SP_REBORN:
 		sd->status.reborn = val;
 		break;
 	default:
