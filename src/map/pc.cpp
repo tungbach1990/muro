@@ -10506,8 +10506,10 @@ bool pc_setparam(map_session_data *sd,int64 type,int64 val_tmp)
 		pc_setglobalreg(sd, add_str(COOKMASTERY_VAR), sd->cook_mastery);
 		return true;
 	case SP_REBORN:
-		sd->status.reborn = val;
-		break;
+		if (sd->bonus.reborn == val)
+			return true;
+		pc_setglobalreg(sd, add_str(REBORN_VAR), val);
+		return true;
 	default:
 		ShowError("pc_setparam: Attempted to set unknown parameter '%lld'.\n", type);
 		return false;
