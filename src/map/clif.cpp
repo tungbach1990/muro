@@ -3843,8 +3843,6 @@ void clif_updatestatus(map_session_data *sd,int type)
 
 	// Additional update packets that should be sent right after
 	switch( type ){
-		case SP_REBORN:
-			clif_updatestatus(sd,SP_REBORN);
 		case SP_BASELEVEL:
 			if( sd->status.party_id ){
 				struct party_data* p;
