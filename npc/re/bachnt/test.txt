@@ -1,0 +1,4 @@
+prontera,150,150,6	script	test	109,{
+Reborn = Reborn + 1;
+
+}
