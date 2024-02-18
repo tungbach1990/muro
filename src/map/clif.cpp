@@ -3831,7 +3831,6 @@ void clif_updatestatus(map_session_data *sd,int type)
 		// 4th job status are not supported by older clients
 		return;
 #endif
-		break;
 	default:
 		ShowError("clif_updatestatus : unrecognized type %d\n",type);
 		return;
