@@ -3832,9 +3832,6 @@ void clif_updatestatus(map_session_data *sd,int type)
 		return;
 #endif
 		break;
-    case SP_REBORN:
-		WFIFOL(fd,4)=sd->status.reborn;
-		break;
 	default:
 		ShowError("clif_updatestatus : unrecognized type %d\n",type);
 		return;
