@@ -10253,7 +10253,7 @@ int64 pc_readparam(map_session_data* sd,int64 type)
 		case SP_MAX_PEN_RATE: val = sd->bonus.max_pen_rate;break;
 		case SP_MAX_DAMAGE_EXCEED: val = sd->bonus.max_damage_exceed;break;
 		case SP_MAX_DAMAGE_PEN_EXCEED: val = sd->bonus.max_damage_pen_exceed;break;
-		case SP_REBORN:      val = sd->status.reborn; break;
+		case SP_REBORN:      val = sd->status.reborn = pc_readglobalreg(sd,add_str("REBORN_VAR")); break;
 		default:
 			ShowError("pc_readparam: Attempt to read unknown parameter '%lld'.\n", type);
 			return -1;
@@ -10506,9 +10506,10 @@ bool pc_setparam(map_session_data *sd,int64 type,int64 val_tmp)
 		pc_setglobalreg(sd, add_str(COOKMASTERY_VAR), sd->cook_mastery);
 		return true;
 	case SP_REBORN:
-		if (sd->bonus.reborn == val)
+		if (sd->status.reborn == val)
 			return true;
 		pc_setglobalreg(sd, add_str(REBORN_VAR), val);
+		sd->status.reborn = val;
 		return true;
 	default:
 		ShowError("pc_setparam: Attempted to set unknown parameter '%lld'.\n", type);
