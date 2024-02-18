@@ -9573,8 +9573,7 @@ ACMD_FUNC(stats)
 	output_table[30].value = sd->bonus.max_eva;
 	output_table[31].value = sd->bonus.max_block;
 	output_table[32].value = sd->bonus.max_pen_eva;
-	output_table[33].value = sd->bonus.max_pen_block;	
-	sd->status.reborn = static_cast<int>(pc_readglobalreg(sd,add_str("REBORN_VAR")));
+	output_table[33].value = sd->bonus.max_pen_block;
 	output_table[34].value = sd->status.reborn;	
 
 	sprintf(job_jobname, "Job - %s %s", job_name(sd->status.class_), "(level %d)");
