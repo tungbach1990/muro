@@ -4817,7 +4817,87 @@ uint64 MobDatabase::parseBodyNode(const ryml::NodeRef& node) {
 
 		mob->damagetaken = damage;
 	}
+	if (this->nodeExists(node, "MaxDamage")) {
+		uint16 max_damage;
 
+		if (!this->asUInt16(node, "MaxDamage", max_damage))
+			return 0;
+
+		mob->bonus.max_damage = max_damage;
+	}
+
+	if (this->nodeExists(node, "MaxRate")) {
+		uint16 max_rate;
+
+		if (!this->asUInt16(node, "MaxRate", max_rate))
+			return 0;
+
+		mob->bonus.max_rate = max_rate;
+	}
+
+	if (this->nodeExists(node, "MaxEva")) {
+		uint16 max_eva;
+
+		if (!this->asUInt16(node, "MaxEva", max_eva))
+			return 0;
+
+		mob->bonus.max_eva = max_eva;
+	}
+
+	if (this->nodeExists(node, "MaxBlock")) {
+		uint16 max_block;
+
+		if (!this->asUInt16(node, "MaxBlock", max_block))
+			return 0;
+
+		mob->bonus.max_block = max_block;
+	}
+	
+	if (this->nodeExists(node, "MaxPenEva")) {
+		uint16 max_pen_eva;
+
+		if (!this->asUInt16(node, "MaxPenEva", max_pen_eva))
+			return 0;
+
+		mob->bonus.max_pen_eva = max_pen_eva;
+	}
+
+	if (this->nodeExists(node, "MaxPenBlock")) {
+		uint16 max_pen_block;
+
+		if (!this->asUInt16(node, "MaxPenBlock", max_pen_block))
+			return 0;
+
+		mob->bonus.max_pen_block = max_pen_block;
+	}	
+	
+	if (this->nodeExists(node, "MaxPenRate")) {
+		uint16 max_pen_rate;
+
+		if (!this->asUInt16(node, "MaxPenRate", max_pen_rate))
+			return 0;
+
+		mob->bonus.max_pen_rate = max_pen_rate;
+	}
+	
+	if (this->nodeExists(node, "MaxDamageExceed")) {
+		uint16 max_damage_exceed;
+
+		if (!this->asUInt16(node, "MaxDamageExceed", max_damage_exceed))
+			return 0;
+
+		mob->bonus.max_damage_exceed = max_damage_exceed;
+	}
+
+	if (this->nodeExists(node, "MaxDamagePenExceed")) {
+		uint16 max_damage_pen_exceed;
+
+		if (!this->asUInt16(node, "MaxDamagePenExceed", max_damage_pen_exceed))
+			return 0;
+
+		mob->bonus.max_damage_pen_exceed = max_damage_pen_exceed;
+	}
+	
 	if (this->nodeExists(node, "Ai")) {
 		std::string ai;
 
@@ -5165,6 +5245,24 @@ static bool mob_read_sqldb_sub(std::vector<std::string> str) {
 	if (!str[++index].empty())
 		node["MagicResistance"] << std::stoi(str[index]);
 #endif
+	if (!str[++index].empty())
+		node["MaxDamage"] << std::stoi(str[index]);
+	if (!str[++index].empty())
+		node["MaxRate"] << std::stoi(str[index]);
+	if (!str[++index].empty())
+		node["MaxEva"] << std::stoi(str[index]);
+	if (!str[++index].empty())
+		node["MaxBlock"] << std::stoi(str[index]);
+	if (!str[++index].empty())
+		node["MaxPenEva"] << std::stoi(str[index]);
+	if (!str[++index].empty())
+		node["MaxPenBlock"] << std::stoi(str[index]);	
+	if (!str[++index].empty())
+		node["MaxPenRate"] << std::stoi(str[index]);
+	if (!str[++index].empty())
+		node["MaxDamageExceed"] << std::stoi(str[index]);
+	if (!str[++index].empty())
+		node["MaxDamagePenExceed"] << std::stoi(str[index]);		
 
 	if( !modes.has_children() ){
 		node.remove_child( modes );
@@ -5200,7 +5298,7 @@ static int mob_read_sqldb(void)
 			"`mvpdrop1_item`,`mvpdrop1_rate`,`mvpdrop1_option`,`mvpdrop1_index`,`mvpdrop2_item`,`mvpdrop2_rate`,`mvpdrop2_option`,`mvpdrop2_index`,`mvpdrop3_item`,`mvpdrop3_rate`,`mvpdrop3_option`,`mvpdrop3_index`,"
 			"`drop1_item`,`drop1_rate`,`drop1_nosteal`,`drop1_option`,`drop1_index`,`drop2_item`,`drop2_rate`,`drop2_nosteal`,`drop2_option`,`drop2_index`,`drop3_item`,`drop3_rate`,`drop3_nosteal`,`drop3_option`,`drop3_index`,`drop4_item`,`drop4_rate`,`drop4_nosteal`,`drop4_option`,`drop4_index`,`drop5_item`,`drop5_rate`,`drop5_nosteal`,`drop5_option`,`drop5_index`,`drop6_item`,`drop6_rate`,`drop6_nosteal`,`drop6_option`,`drop6_index`,`drop7_item`,`drop7_rate`,`drop7_nosteal`,`drop7_option`,`drop7_index`,`drop8_item`,`drop8_rate`,`drop8_nosteal`,`drop8_option`,`drop8_index`,`drop9_item`,`drop9_rate`,`drop9_nosteal`,`drop9_option`,`drop9_index`,`drop10_item`,`drop10_rate`,`drop10_nosteal`,`drop10_option`,`drop10_index`"
 #ifdef RENEWAL
-			",`resistance`,`magic_resistance`"
+			",`resistance`,`magic_resistance`,`max_damage`,`max_rate`,`max_eva`,`max_block`,`max_pen_eva`,`max_pen_block`,`max_pen_rate`,`max_damage_exceed`,`max_damage_pen_exceed`"
 #endif
 			" FROM `%s`", mob_db_name[fi]) ) {
 			Sql_ShowDebug(mmysql_handle);

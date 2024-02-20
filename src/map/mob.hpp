@@ -328,6 +328,17 @@ struct mob_data {
 		enum mob_ai ai; //Special ai for summoned monsters.
 		unsigned int clone : 1;/* is clone? 1:0 */
 	} special_state; //Special mob information that does not needs to be zero'ed on mob respawn.
+	struct s_bonus {
+		uint16 max_damage;
+		uint16 max_rate;
+		uint16 max_eva;
+		uint16 max_block;
+		uint16 max_pen_eva;
+		uint16 max_pen_block;
+		uint16 max_pen_rate;
+		uint16 max_damage_exceed;
+		uint16 max_damage_pen_exceed;
+	} bonus; //Special mob information that does not needs to be zero'ed on mob respawn.
 	struct s_MobState {
 		unsigned int aggressive : 1; //Signals whether the mob AI is in aggressive mode or reactive mode. [Skotlex]
 		unsigned int steal_coin_flag : 1;
