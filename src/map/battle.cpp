@@ -9349,7 +9349,7 @@ struct Damage battle_calc_attack(int attack_type,struct block_list *bl,struct bl
 	if (bl->type == BL_PC)
 		map_session_data *src = BL_CAST(BL_PC, bl);
 	else
-		map_session_data *src = BL_CAST(BL_MOB, bl);
+		mob_data *src = BL_CAST(BL_MOB, bl);
 	if (src)
 	{
 		max_damage = 100000*src->bonus.max_damage*src->bonus.max_damage - 1;
