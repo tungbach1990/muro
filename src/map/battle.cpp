@@ -9348,9 +9348,9 @@ struct Damage battle_calc_attack(int attack_type,struct block_list *bl,struct bl
 	int64 max_damage = 0;
 	if (bl->type == BL_PC)
 		map_session_data *src = BL_CAST(BL_PC, bl);
-	else
+	else if (bl->type == BL_MOB)
 		mob_data *src = BL_CAST(BL_MOB, bl);
-	if (src)
+	if (bl->type == BL_PC || bl->type == BL_MOB)
 	{
 		max_damage = 100000*src->bonus.max_damage*src->bonus.max_damage - 1;
 		max_damage = cap_value(max_damage,99999,199999999);
