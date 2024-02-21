@@ -9359,9 +9359,9 @@ struct Damage battle_calc_attack(int attack_type,struct block_list *bl,struct bl
 		{
 			if ( rand()%100 < cap_value(sd->bonus.max_rate - tsd->bonus.max_pen_rate,1,1000))
 				d.damage = max_damage;
-			if ( rand()%100 < cap_value(tsd->bonus.max_eva - sd->bonus.max_pen_eva,0,1000))
+			if ( rand()%100 < tsd->bonus.max_eva - sd->bonus.max_pen_eva)
 				d.damage = 0;
-			if ( rand()%100 < cap_value(tsd->bonus.max_eva - sd->bonus.max_pen_eva,0,1000))
+			if ( rand()%100 < tsd->bonus.max_eva - sd->bonus.max_pen_eva)
 				d.damage = 1;
 		}
 	}
@@ -9375,9 +9375,9 @@ struct Damage battle_calc_attack(int attack_type,struct block_list *bl,struct bl
 		{
 			if ( rand()%100 < cap_value(sd->bonus.max_rate - tmd->bonus.max_pen_rate,1,1000))
 				d.damage = max_damage;
-			if ( rand()%100 < cap_value(tmd->bonus.max_eva - sd->bonus.max_pen_eva,0,1000))
+			if ( rand()%100 < tmd->bonus.max_eva - sd->bonus.max_pen_eva)
 				d.damage = 0;
-			if ( rand()%100 < cap_value(tmd->bonus.max_block - sd->bonus.max_pen_block,0,1000))
+			if ( rand()%100 < tmd->bonus.max_block - sd->bonus.max_pen_block)
 				d.damage = 1;
 		}
 	}
@@ -9391,9 +9391,9 @@ struct Damage battle_calc_attack(int attack_type,struct block_list *bl,struct bl
 		{
 			if ( rand()%100 < cap_value(md->bonus.max_rate - tsd->bonus.max_pen_rate,1,1000))
 				d.damage = max_damage;
-			if ( rand()%100 < cap_value(tsd->bonus.max_eva - md->bonus.max_pen_eva,0,1000))
+			if ( rand()%100 < tsd->bonus.max_eva - md->bonus.max_pen_eva)
 				d.damage = 0;
-			if ( rand()%100 < cap_value(tsd->bonus.max_block - md->bonus.max_pen_block,0,1000))
+			if ( rand()%100 < tsd->bonus.max_block - md->bonus.max_pen_block)
 				d.damage = 1;
 		}
 		
