@@ -2680,6 +2680,15 @@ int status_calc_mob_(struct mob_data* md, uint8 opt)
 		else
 			md->level = md->db->lv;
 		md->damagetaken = md->db->damagetaken;
+		md->bonus.max_damage = md->db->max_damage;
+		md->bonus.max_rate = md->db->max_rate;
+		md->bonus.max_eva = md->db->max_eva;
+		md->bonus.max_block = md->db->max_block;
+		md->bonus.max_pen_eva = md->db->max_pen_eva;
+		md->bonus.max_pen_block = md->db->max_pen_block;
+		md->bonus.max_pen_rate = md->db->max_pen_rate;
+		md->bonus.max_damage_exceed = md->db->max_damage_exceed;
+		md->bonus.max_damage_pen_exceed = md->db->max_damage_pen_exceed;
 	}
 
 	// Check if we need custom base-status
