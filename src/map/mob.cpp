@@ -465,6 +465,10 @@ struct mob_data* mob_spawn_dataset(struct spawn_data *data)
 	if (data->level > 0)
 		md->level = data->level;
 	memcpy(md->name, data->name, NAME_LENGTH);
+	if (data->bonus.max_damage)
+		md->bonus.max_damage = data->bonus.max_damage;
+	if (data->bonus.max_eva)
+		md->bonus.max_eva = data->bonus.max_eva;
 	if (data->state.ai)
 		md->special_state.ai = data->state.ai;
 	if (data->state.size)
