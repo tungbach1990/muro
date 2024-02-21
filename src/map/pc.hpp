@@ -674,17 +674,17 @@ public:
 		uint8 absorb_dmg_maxhp2;
 		short critical_rangeatk;
 		short weapon_atk_rate, weapon_matk_rate;
-		int64 max_damage;
+		uint16 max_damage;
 		int max_rate;
 		unsigned int limit_hp : 1;
 		unsigned int limit_sp : 1;
-		int max_eva;
-		int max_block;
-		int max_pen_eva;
-		int max_pen_block;
-		int max_pen_rate;
-		int max_damage_exceed;
-		int max_damage_pen_exceed;
+		uint16 max_eva;
+		uint16 max_block;
+		uint16 max_pen_eva;
+		uint16 max_pen_block;
+		uint16 max_pen_rate;
+		uint16 max_damage_exceed;
+		uint16 max_damage_pen_exceed;
 	} bonus;
 	// zeroed vars end here.
 
