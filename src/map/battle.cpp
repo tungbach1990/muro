@@ -9345,38 +9345,60 @@ struct Damage battle_calc_attack(int attack_type,struct block_list *bl,struct bl
 			break;
 		}
 	map_session_data *sd = BL_CAST(BL_PC, bl);
-	map_session_data *md = BL_CAST(BL_MOB, bl);
+	mob_data *md = BL_CAST(BL_MOB, bl);
 	map_session_data *tsd = BL_CAST(BL_PC, target);
-	map_session_data *tmd = BL_CAST(BL_MOB, target);
+	mob_data *tmd = BL_CAST(BL_MOB, target);
 	int64 max_damage = 0;
-	d.damage = tsd->bonus.max_damage_pen_exceed + 1000;
-	/*
 	if (sd && tsd)
 	{
 		max_damage = 100000*sd->bonus.max_damage*sd->bonus.max_damage - 1;
 		max_damage = cap_value(max_damage,99999,199999999);
-		sd->bonus.max_damage_exceed = cap_value(sd->bonus.max_damage_exceed,0,1000);
-		tsd->bonus.max_damage_pen_exceed = cap_value(tsd->bonus.max_damage_pen_exceed,0,1000);
 		max_damage = (int64)max_damage * (100 + sd->bonus.max_damage_exceed - tsd->bonus.max_damage_pen_exceed) / 100 ;
 		d.damage = cap_value(d.damage,INT_MIN,max_damage);
 		if (skill_id) 
-			if ( rand()%100 < sd->bonus.max_rate - tsd->bonus.max_pen_rate)
+		{
+			if ( rand()%100 < cap_value(sd->bonus.max_rate - tsd->bonus.max_pen_rate,1,1000))
 				d.damage = max_damage;
+			if ( rand()%100 < cap_value(tsd->bonus.max_eva - sd->bonus.max_pen_eva,0,1000))
+				d.damage = 0;
+			if ( rand()%100 < cap_value(tsd->bonus.max_eva - sd->bonus.max_pen_eva,0,1000))
+				d.damage = 1;
+		}
+	}
+	if (sd && tmd)
+	{
+		max_damage = 100000*sd->bonus.max_damage*sd->bonus.max_damage - 1;
+		max_damage = cap_value(max_damage,99999,199999999);
+		max_damage = (int64)max_damage * (100 + sd->bonus.max_damage_exceed - tmd->bonus.max_damage_pen_exceed) / 100 ;
+		d.damage = cap_value(d.damage,INT_MIN,max_damage);
+		if (skill_id) 
+		{
+			if ( rand()%100 < cap_value(sd->bonus.max_rate - tmd->bonus.max_pen_rate,1,1000))
+				d.damage = max_damage;
+			if ( rand()%100 < cap_value(tmd->bonus.max_eva - sd->bonus.max_pen_eva,0,1000))
+				d.damage = 0;
+			if ( rand()%100 < cap_value(tmd->bonus.max_block - sd->bonus.max_pen_block,0,1000))
+				d.damage = 1;
+		}
 	}
 	if (md && tsd)
 	{
 		max_damage = 100000*md->bonus.max_damage*md->bonus.max_damage - 1;
 		max_damage = cap_value(max_damage,99999,199999999);
-		if (md->bonus.max_damage_exceed > 0)
-			max_damage = (int64)max_damage * (100 + md->bonus.max_damage_exceed) / 100 ;
-		// d.damage = cap_value(d.damage,INT_MIN,max_damage); mobs dont have limit max damage, only have max_damage rate
+		max_damage = (int64)max_damage * (100 + md->bonus.max_damage_exceed - tsd->bonus.max_damage_pen_exceed) / 100 ;
+		d.damage = cap_value(d.damage,INT_MIN,max_damage);
 		if (skill_id) 
-			if ( rand()%100 < md->bonus.max_rate)
+		{
+			if ( rand()%100 < cap_value(md->bonus.max_rate - tsd->bonus.max_pen_rate,1,1000))
 				d.damage = max_damage;
+			if ( rand()%100 < cap_value(tsd->bonus.max_eva - md->bonus.max_pen_eva,0,1000))
+				d.damage = 0;
+			if ( rand()%100 < cap_value(tsd->bonus.max_block - md->bonus.max_pen_block,0,1000))
+				d.damage = 1;
+		}
 		
 	}
 	
-	*/
 		
 	if( d.damage + d.damage2 < 1 )
 	{	//Miss/Absorbed
