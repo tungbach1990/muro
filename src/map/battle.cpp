@@ -9373,12 +9373,15 @@ struct Damage battle_calc_attack(int attack_type,struct block_list *bl,struct bl
 		d.damage = cap_value(d.damage,INT_MIN,max_damage);
 		if (skill_id) 
 		{
+			d.damage = tmd->bonus.max_eva - sd->bonus.max_pen_eva;
+			/*
 			if ( rand()%100 < cap_value(sd->bonus.max_rate - tmd->bonus.max_pen_rate,1,1000))
 				d.damage = max_damage;
 			if ( rand()%100 < tmd->bonus.max_eva - sd->bonus.max_pen_eva)
 				d.damage = 0;
 			if ( rand()%100 < tmd->bonus.max_block - sd->bonus.max_pen_block)
 				d.damage = 1;
+			*/
 		}
 	}
 	if (md && tsd)
