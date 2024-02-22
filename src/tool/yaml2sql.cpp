@@ -845,6 +845,24 @@ static bool mob_db_yaml2sql(const std::string &file, const std::string &table) {
 			column.append("`ai`,");
 		if (appendEntry(input["Class"], value, true))
 			column.append("`class`,");
+		if (appendEntry(input["MaxDamage"], value, true))
+			column.append("`max_damage`,");
+		if (appendEntry(input["MaxRate"], value, true))
+			column.append("`max_rate`,");
+		if (appendEntry(input["MaxEva"], value, true))
+			column.append("`max_eva`,");
+		if (appendEntry(input["MaxBlock"], value, true))
+			column.append("`max_block`,");
+		if (appendEntry(input["MaxPenEva"], value, true))
+			column.append("`max_pen_eva`,");
+		if (appendEntry(input["MaxPenBlock"], value, true))
+			column.append("`max_pen_block`,");
+		if (appendEntry(input["MaxDamageExceed"], value, true))
+			column.append("`max_damage_exceed`,");
+		if (appendEntry(input["MaxDamagePenExceed"], value, true))
+			column.append("`max_damage_pen_exceed`,");
+		if (appendEntry(input["FollowRange"], value, true))
+			column.append("`follow_range`,");
 
 		const YAML::Node &modes = input["Modes"];
 
@@ -901,6 +919,10 @@ static bool mob_db_yaml2sql(const std::string &file, const std::string &table) {
 				column.append("`mode_statusimmune`,");
 			if (appendEntry(modes["SkillImmune"], value))
 				column.append("`mode_skillimmune`,");
+			if (appendEntry(modes["SkillOnly"], value))
+				column.append("`mode_skillonly`,");		
+			if (appendEntry(modes["PcBehavior"], value))
+				column.append("`mode_pcbehavior`,");			
 		}
 
 		for (uint16 i = 0; i < MAX_MVP_DROP; i++) {
