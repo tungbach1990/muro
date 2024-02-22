@@ -5384,17 +5384,14 @@ int skill_castend_damage_id (struct block_list* src, struct block_list *bl, uint
 	case SKE_RISING_MOON:
 		skill_attack(BF_WEAPON,src,src,bl,skill_id,skill_lv,tick,flag);
 		break;
-<<<<<<< HEAD
 	case NW_MAGAZINE_FOR_ONE:
 	case NW_ONLY_ONE_BULLET:
 		skill_attack(BF_WEAPON,src,src,bl,skill_id,skill_lv,tick,flag);
 		if (sc && sc->getSCE(SC_INTENSIVE_AIM_COUNT))
 			status_change_end(src, SC_INTENSIVE_AIM_COUNT);
-=======
 	case EXPANDED_DUMMY1:
 	case EXPANDED_DUMMY2:
 	case EXPANDED_DUMMY3:
->>>>>>> upstream2/mod/expanded_ai
 		break;
 	case DK_DRAGONIC_AURA:
 	case DK_STORMSLASH:
@@ -8355,20 +8352,16 @@ int skill_castend_nodamage_id (struct block_list *src, struct block_list *bl, ui
 		clif_skill_nodamage(src,bl,skill_id,skill_lv,
 			sc_start(src,bl,type,100,skill_lv,skill_get_time(skill_id,skill_lv)));
 		break;
-<<<<<<< HEAD
 	case RL_P_ALTER:
 		clif_skill_nodamage(src,bl,skill_id,skill_lv,
 			sc_start(src,bl,type,100,skill_lv,skill_get_time(skill_id,skill_lv)));
 		sc_start2(src,bl,SC_KYRIE,100,skill_lv,skill_id,skill_get_time(skill_id,skill_lv));
 		break;
-
-=======
 	case MO_EXPLOSIONSPIRITS:
 		if (md)
 			mob_delspiritball(md, 5);
 		clif_skill_nodamage(src, bl, skill_id, skill_lv, sc_start(src, bl, type, 100, skill_lv, skill_get_time(skill_id, skill_lv)));
 		break;
->>>>>>> upstream2/mod/expanded_ai
 	case NPC_GRADUAL_GRAVITY:
 		status_change_start(src, bl, type, 10000, skill_lv, 0, 0, 0, skill_get_time(skill_id, skill_lv), SCSTART_NOAVOID|SCSTART_NOTICKDEF|SCSTART_NORATEDEF);
 		clif_skill_nodamage(src, bl, skill_id, skill_lv, 1);
