@@ -951,10 +951,12 @@ public:
 	} captcha_upload;
 
 	s_macro_detect macro_detect;
+  
+	int skill_being_cast_id;
 
 	std::vector<uint32> party_booking_requests;
-};
 
+};
 extern struct eri *pc_sc_display_ers; /// Player's SC display table
 
 /**
