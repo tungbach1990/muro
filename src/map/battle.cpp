@@ -34,6 +34,15 @@
 #include "pc_groups.hpp"
 #include "pet.hpp"
 
+
+int intPow(int base, int exponent) {
+    int result = 1;
+    for (int i = 0; i < exponent; ++i) {
+        result *= base;
+    }
+    return result;
+}
+
 struct Battle_Config battle_config;
 static struct eri *delay_damage_ers; //For battle delay damage structures.
 
@@ -9351,8 +9360,8 @@ struct Damage battle_calc_attack(int attack_type,struct block_list *bl,struct bl
 	int64 max_damage = 0;
 	if (sd && tsd)
 	{
-		max_damage = 100000*sd->bonus.max_damage*sd->bonus.max_damage - 1;
-		max_damage = cap_value(max_damage,99999,199999999);
+		max_damage = 100*intPow(10,sd->bonus.max_damage/10)*(sd->bonus.max_damage%10 + 10)- 1;
+		max_damage = cap_value(max_damage,999,999999999);
 		max_damage = (int64)max_damage * (100 + sd->bonus.max_damage_exceed - tsd->bonus.max_damage_pen_exceed) / 100 ;
 		d.damage = cap_value(d.damage,INT_MIN,max_damage);
 		if (skill_id) 
@@ -9367,8 +9376,8 @@ struct Damage battle_calc_attack(int attack_type,struct block_list *bl,struct bl
 	}
 	if (sd && tmd)
 	{
-		max_damage = 100000*sd->bonus.max_damage*sd->bonus.max_damage - 1;
-		max_damage = cap_value(max_damage,99999,199999999);
+		max_damage = 1000*intPow(10,sd->bonus.max_damage/10)*(sd->bonus.max_damage%10 + 10)- 1;
+		max_damage = cap_value(max_damage,9999,999999999);
 		max_damage = (int64)max_damage * (100 + sd->bonus.max_damage_exceed - tmd->bonus.max_damage_pen_exceed) / 100 ;
 		d.damage = cap_value(d.damage,INT_MIN,max_damage);
 		if (skill_id) 
@@ -9383,10 +9392,10 @@ struct Damage battle_calc_attack(int attack_type,struct block_list *bl,struct bl
 	}
 	if (md && tsd)
 	{
-		max_damage = 100000*md->bonus.max_damage*md->bonus.max_damage - 1;
-		max_damage = cap_value(max_damage,99999,199999999);
+		max_damage = md->level*100*intPow(10,md->bonus.max_damage/10)*(md->bonus.max_damage%10 + 10)- 1;
+		max_damage = cap_value(max_damage,999,999999999);
 		max_damage = (int64)max_damage * (100 + md->bonus.max_damage_exceed - tsd->bonus.max_damage_pen_exceed) / 100 ;
-		d.damage = cap_value(d.damage,INT_MIN,max_damage);
+		//d.damage = cap_value(d.damage,INT_MIN,max_damage);
 		if (skill_id) 
 		{
 			if ( rand()%100 < cap_value(md->bonus.max_rate - tsd->bonus.max_pen_rate,1,1000))
