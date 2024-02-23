@@ -449,7 +449,7 @@ struct s_mob_db {
 	uint16 lv{ 1 };
 	s_mob_drop dropitem[MAX_MOB_DROP_TOTAL]{}, mvpitem[MAX_MVP_DROP_TOTAL]{};
 	status_data status{};
-	bonus_data bonus{};
+	bonus_data custom{};
 	view_data vd{};
 	uint32 option{};
 	std::vector<std::shared_ptr<s_mob_skill>> skill{};

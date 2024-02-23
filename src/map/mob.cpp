@@ -5309,7 +5309,7 @@ uint64 MobDatabase::parseBodyNode(const ryml::NodeRef& node) {
 		if (!this->asUInt16(node, "MaxDamage", max_damage))
 			return 0;
 
-		mob->bonus.max_damage = max_damage;
+		mob->custom.max_damage = max_damage;
 	}
 
 	if (this->nodeExists(node, "MaxRate")) {
@@ -5318,7 +5318,7 @@ uint64 MobDatabase::parseBodyNode(const ryml::NodeRef& node) {
 		if (!this->asUInt16(node, "MaxRate", max_rate))
 			return 0;
 
-		mob->bonus.max_rate = max_rate;
+		mob->custom.max_rate = max_rate;
 	}
 
 	if (this->nodeExists(node, "MaxEva")) {
@@ -5327,7 +5327,7 @@ uint64 MobDatabase::parseBodyNode(const ryml::NodeRef& node) {
 		if (!this->asUInt16(node, "MaxEva", max_eva))
 			return 0;
 
-		mob->bonus.max_eva = max_eva;
+		mob->custom.max_eva = max_eva;
 	}
 
 	if (this->nodeExists(node, "MaxBlock")) {
@@ -5336,7 +5336,7 @@ uint64 MobDatabase::parseBodyNode(const ryml::NodeRef& node) {
 		if (!this->asUInt16(node, "MaxBlock", max_block))
 			return 0;
 
-		mob->bonus.max_block = max_block;
+		mob->custom.max_block = max_block;
 	}
 	
 	if (this->nodeExists(node, "MaxPenEva")) {
@@ -5345,7 +5345,7 @@ uint64 MobDatabase::parseBodyNode(const ryml::NodeRef& node) {
 		if (!this->asUInt16(node, "MaxPenEva", max_pen_eva))
 			return 0;
 
-		mob->bonus.max_pen_eva = max_pen_eva;
+		mob->custom.max_pen_eva = max_pen_eva;
 	}
 
 	if (this->nodeExists(node, "MaxPenBlock")) {
@@ -5354,7 +5354,7 @@ uint64 MobDatabase::parseBodyNode(const ryml::NodeRef& node) {
 		if (!this->asUInt16(node, "MaxPenBlock", max_pen_block))
 			return 0;
 
-		mob->bonus.max_pen_block = max_pen_block;
+		mob->custom.max_pen_block = max_pen_block;
 	}	
 	
 	if (this->nodeExists(node, "MaxPenRate")) {
@@ -5363,7 +5363,7 @@ uint64 MobDatabase::parseBodyNode(const ryml::NodeRef& node) {
 		if (!this->asUInt16(node, "MaxPenRate", max_pen_rate))
 			return 0;
 
-		mob->bonus.max_pen_rate = max_pen_rate;
+		mob->custom.max_pen_rate = max_pen_rate;
 	}
 	
 	if (this->nodeExists(node, "MaxDamageExceed")) {
@@ -5372,7 +5372,7 @@ uint64 MobDatabase::parseBodyNode(const ryml::NodeRef& node) {
 		if (!this->asUInt16(node, "MaxDamageExceed", max_damage_exceed))
 			return 0;
 
-		mob->bonus.max_damage_exceed = max_damage_exceed;
+		mob->custom.max_damage_exceed = max_damage_exceed;
 	}
 
 	if (this->nodeExists(node, "MaxDamagePenExceed")) {
@@ -5381,7 +5381,7 @@ uint64 MobDatabase::parseBodyNode(const ryml::NodeRef& node) {
 		if (!this->asUInt16(node, "MaxDamagePenExceed", max_damage_pen_exceed))
 			return 0;
 
-		mob->bonus.max_damage_pen_exceed = max_damage_pen_exceed;
+		mob->custom.max_damage_pen_exceed = max_damage_pen_exceed;
 	}
 	
 	if (this->nodeExists(node, "Ai")) {
