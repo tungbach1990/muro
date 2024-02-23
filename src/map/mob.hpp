@@ -510,7 +510,7 @@ struct mob_data {
 	status_change sc;
 	std::shared_ptr<s_mob_db> db;	//For quick data access (saves doing mob_db(md->mob_id) all the time) [Skotlex]
 	char name[NAME_LENGTH];
-	struct bonus_data bonus;
+	struct bonus_data custom;
 	struct s_specialState {
 		unsigned int size : 2; //Small/Big monsters.
 		enum mob_ai ai; //Special ai for summoned monsters.
