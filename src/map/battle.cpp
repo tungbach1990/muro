@@ -9366,9 +9366,9 @@ struct Damage battle_calc_attack(int attack_type,struct block_list *bl,struct bl
 	mob_data *md = BL_CAST(BL_MOB, bl);
 	map_session_data *tsd = BL_CAST(BL_PC, target);
 	mob_data *tmd = BL_CAST(BL_MOB, target);
-	int64 max_damage = 0;
 	if (sd && tsd)
 	{
+		int64 max_damage = 0;
 		max_damage = 100*intPow(10,sd->custom.max_damage/10)*(sd->custom.max_damage%10 + 10)- 1;
 		max_damage = cap_value(max_damage,999,999999999);
 		max_damage = (int64)max_damage * (100 + sd->custom.max_damage_exceed - tsd->custom.max_damage_pen_exceed) / 100 ;
@@ -9385,6 +9385,7 @@ struct Damage battle_calc_attack(int attack_type,struct block_list *bl,struct bl
 	}
 	if (sd && tmd)
 	{
+		int64 max_damage = 0;
 		max_damage = 1000*intPow(10,sd->custom.max_damage/10)*(sd->custom.max_damage%10 + 10)- 1;
 		max_damage = cap_value(max_damage,9999,999999999);
 		max_damage = (int64)max_damage * (100 + sd->custom.max_damage_exceed - tmd->custom.max_damage_pen_exceed) / 100 ;
@@ -9401,6 +9402,7 @@ struct Damage battle_calc_attack(int attack_type,struct block_list *bl,struct bl
 	}
 	if (md && tsd)
 	{
+		int64 max_damage = 0;
 		max_damage = md->level*100*intPow(10,md->custom.max_damage/10)*(md->custom.max_damage%10 + 10)- 1;
 		max_damage = cap_value(max_damage,999,999999999);
 		max_damage = (int64)max_damage * (100 + md->custom.max_damage_exceed - tsd->custom.max_damage_pen_exceed) / 100 ;
