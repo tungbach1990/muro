@@ -868,7 +868,7 @@
 	export_constant2("bMaxPenRate",SP_MAX_PEN_RATE);
 	export_constant2("bMaxDamageExceed",SP_MAX_DAMAGE_EXCEED);
 	export_constant2("bMaxDamagePenExceed",SP_MAX_DAMAGE_PEN_EXCEED);
-	export_constant2("bGlobalSkillCooldown",SP_Global_Skill_Cooldown);
+	export_constant2("bGlobalSkillCooldown",SP_GLOBAL_SKILL_COOLDOWN);
 
 	/* equip indices */
 	export_constant(EQI_COMPOUND_ON);
