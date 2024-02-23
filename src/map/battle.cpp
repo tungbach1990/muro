@@ -9366,6 +9366,7 @@ struct Damage battle_calc_attack(int attack_type,struct block_list *bl,struct bl
 	mob_data *md = BL_CAST(BL_MOB, bl);
 	map_session_data *tsd = BL_CAST(BL_PC, target);
 	mob_data *tmd = BL_CAST(BL_MOB, target);
+	ShowWarning("Type %d \n", bl->type);
 	if (sd && tsd)
 	{
 		int64 max_damage = 0;
@@ -9419,7 +9420,7 @@ struct Damage battle_calc_attack(int attack_type,struct block_list *bl,struct bl
 		
 	}
 	
-		
+	ShowWarning("Calc %d \n", d.damage);	
 	if( d.damage + d.damage2 < 1 )
 	{	//Miss/Absorbed
 		//Weapon attacks should go through to cause additional effects.
@@ -9448,7 +9449,8 @@ struct Damage battle_calc_attack(int attack_type,struct block_list *bl,struct bl
 
 	if (sd && d.damage + d.damage2 > 1)
 		battle_vanish_damage(sd, target, d.flag);
-
+	
+	ShowWarning("Final %d \n", d.damage);	
 	return d;
 }
 
