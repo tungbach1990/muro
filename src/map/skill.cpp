@@ -25182,11 +25182,8 @@ uint64 SkillDatabase::parseBodyNode(const ryml::NodeRef& node) {
 	}
 
 	if (this->nodeExists(node, "Cooldown")) {
-		memset(skill->cooldown, 0, sizeof(skill->cooldown));
-		/*
 		if (!this->parseNode("Cooldown", "Time", node, skill->cooldown))
 			return 0;
-		*/
 	} else {
 		if (!exists)
 			memset(skill->cooldown, 0, sizeof(skill->cooldown));

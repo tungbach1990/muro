@@ -674,8 +674,11 @@ public:
 		uint8 absorb_dmg_maxhp2;
 		short critical_rangeatk;
 		short weapon_atk_rate, weapon_matk_rate;
+	} bonus;
+	
+	struct s_custom {
 		uint16 max_damage;
-		int max_rate;
+		uint16 max_rate;
 		unsigned int limit_hp : 1;
 		unsigned int limit_sp : 1;
 		uint16 max_eva;
@@ -685,7 +688,8 @@ public:
 		uint16 max_pen_rate;
 		uint16 max_damage_exceed;
 		uint16 max_damage_pen_exceed;
-	} bonus;
+		uint16 global_skill_cooldown;
+	} custom;
 	// zeroed vars end here.
 
 	int castrate,hprate,sprate,aprate,dsprate;
