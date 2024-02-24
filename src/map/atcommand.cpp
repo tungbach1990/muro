@@ -9541,6 +9541,7 @@ ACMD_FUNC(stats)
 		{ "Max Damage Penalty Block - %d", 0 },		
 		{ "Reborn - %d", 0 },	
 		{ "Skill Global CoolDown - %d", 0 },	
+		{ "crit_def_rate - %d", 0 },
 		{ NULL, 0 }
 	};
 
@@ -9585,6 +9586,7 @@ ACMD_FUNC(stats)
 	output_table[33].value = sd->custom.max_pen_block;
 	output_table[34].value = sd->status.reborn;	
 	output_table[35].value = sd->custom.global_skill_cooldown;	
+	output_table[36].value = sd->bonus.crit_def_rate;
 
 	sprintf(job_jobname, "Job - %s %s", job_name(sd->status.class_), "(level %d)");
 	sprintf(output, msg_txt(sd,53), sd->status.name); // '%s' stats:
