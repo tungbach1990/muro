@@ -7812,7 +7812,7 @@ ACMD_FUNC(mobinfo)
 			mob->custom.max_block);
 		clif_displaymessage(fd, atcmd_output);
 		sprintf(atcmd_output, msg_txt(sd,1537), //  MaxPenRate:%d  MaxPenDamage:%d MaxPenDamageExceed:%d MaxPenEva:%d MaxPenBlock:%d
-			mob->custom.max_pen_rate, mob->custom.max_pen_damage,mob->custom.max_pen_damage_exceed, mob->custom.max_pen_eva,
+			mob->custom.max_pen_rate, mob->custom.max_pen_eva,
 			mob->custom.max_pen_block);
 		clif_displaymessage(fd, atcmd_output);
 #ifdef RENEWAL

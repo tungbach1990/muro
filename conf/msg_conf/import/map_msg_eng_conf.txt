@@ -1,2 +1,2 @@
 1536: MaxDamageRate:%d	 MaxDamageLevel:%d  MaxDamageExceed:%d  MaxEva:%d  MaxBlock:%d  
-1537: MaxPenRate:%d  MaxPenDamage:%d MaxPenDamageExceed:%d MaxPenEva:%d MaxPenBlock:%d
+1537: MaxPenRate:%d	  MaxPenEva:%d	 MaxPenBlock:%d
