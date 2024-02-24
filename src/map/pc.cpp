@@ -4383,52 +4383,64 @@ void pc_bonus(map_session_data *sd,int type,int val)
 				sd->bonus.itemsphealrate2 += val;
 			break;
 		case SP_MAX_DAMAGE:
-			if(sd->state.lr_flag != 2)
-				sd->custom.max_damage+=val;
+			if(sd->state.lr_flag == 2)
+				break;
+			sd->custom.max_damage+=val;
 			break;
 		case SP_MAX_RATE:
 			if(sd->state.lr_flag != 2)
-				sd->custom.max_rate+=val;
+				break;
+			sd->custom.max_rate+=val;
 			break;
 		case SP_LIMIT_HP:
 			if(sd->state.lr_flag != 2)
-				sd->custom.limit_hp = val;
+				break;
+			sd->custom.limit_hp = val;
 			break;
 		case SP_LIMIT_SP:
 			if(sd->state.lr_flag != 2)
-				sd->custom.limit_sp = val;
+				break;
+			sd->custom.limit_sp = val;
 			break;
 		case SP_MAX_EVA:
 			if(sd->state.lr_flag != 2)
-				sd->custom.max_eva+=val;
+				break;
+			sd->custom.max_eva+=val;
 			break;
 		case SP_MAX_BLOCK:
 			if(sd->state.lr_flag != 2)
-				sd->custom.max_block+=val;
+				break;
+			sd->custom.max_block+=val;
 			break;
 		case SP_MAX_PEN_EVA:
 			if(sd->state.lr_flag != 2)
-				sd->custom.max_pen_eva+=val;
+				break;
+			sd->custom.max_pen_eva+=val;
 			break;
 		case SP_MAX_PEN_BLOCK:
 			if(sd->state.lr_flag != 2)
-				sd->custom.max_pen_block+=val;
+				break;
+			sd->custom.max_pen_block+=val;
 			break;
 		case SP_MAX_PEN_RATE:
 			if(sd->state.lr_flag != 2)
-				sd->custom.max_pen_rate+=val;
+				break;
+			sd->custom.max_pen_rate+=val;
 			break;
 		case SP_MAX_DAMAGE_EXCEED:
 			if(sd->state.lr_flag != 2)
-				sd->custom.max_damage_exceed+=val;
+				break;
+			sd->custom.max_damage_exceed+=val;
 			break;
 		case SP_MAX_DAMAGE_PEN_EXCEED:
 			if(sd->state.lr_flag != 2)
-				sd->custom.max_damage_pen_exceed+=val;
+				break;
+			sd->custom.max_damage_pen_exceed+=val;
 			break;
 		case SP_GLOBAL_SKILL_COOLDOWN:
 			if(sd->state.lr_flag != 2)
-				sd->custom.global_skill_cooldown+=val;
+				break;
+			sd->custom.global_skill_cooldown+=val;
 			break;
 		default:
 			if (current_equip_combo_pos > 0) {

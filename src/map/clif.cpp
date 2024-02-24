@@ -3806,6 +3806,42 @@ void clif_updatestatus(map_session_data *sd,int type)
 	case SP_CRATE:
 		WFIFOL(fd, 4) = sd->battle_status.crate;
 		break;
+	case SP_MAX_DAMAGE:
+		WFIFOL(fd,4)=sd->battle_status.max_damage;
+		break;
+	case SP_MAX_RATE:
+		WFIFOL(fd,4)=sd->battle_status.max_rate;
+		break;
+	case SP_LIMIT_HP:
+		WFIFOL(fd,4)=sd->battle_status.limit_hp;
+		break;
+	case SP_LIMIT_SP:
+		WFIFOL(fd,4)=sd->battle_status.limit_sp;
+		break;
+	case SP_MAX_EVA:
+		WFIFOL(fd,4)=sd->battle_status.max_eva;
+		break;
+	case SP_MAX_BLOCK:
+		WFIFOL(fd,4)=sd->battle_status.max_block;
+		break;
+	case SP_MAX_PEN_EVA:
+		WFIFOL(fd,4)=sd->battle_status.max_pen_eva;
+		break;
+	case SP_MAX_PEN_BLOCK:
+		WFIFOL(fd,4)=sd->battle_status.max_pen_block;
+		break;
+	case SP_MAX_PEN_RATE:
+		WFIFOL(fd,4)=sd->battle_status.max_pen_rate;
+		break;
+	case SP_MAX_DAMAGE_EXCEED:
+		WFIFOL(fd,4)=sd->battle_status.max_damage_exceed;
+		break;
+	case SP_MAX_DAMAGE_PEN_EXCEED:
+		WFIFOL(fd,4)=sd->battle_status.max_damage_pen_exceed;
+		break;
+	case SP_GLOBAL_SKILL_COOLDOWN:
+		WFIFOL(fd,4)=sd->battle_status.global_skill_cooldown;
+		break;		
 #else
 	case SP_AP:
 	case SP_TRAITPOINT:
