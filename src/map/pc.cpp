@@ -4400,19 +4400,19 @@ void pc_bonus(map_session_data *sd,int type,int val)
 			break;
 		case SP_MAX_EVA:
 			if(sd->state.lr_flag != 2)
-				sd->custom.max_eva = val;
+				sd->custom.max_eva += val;
 			break;
 		case SP_MAX_BLOCK:
 			if(sd->state.lr_flag != 2)
-				sd->custom.max_block = val;
+				sd->custom.max_block += val;
 			break;
 		case SP_MAX_PEN_EVA:
 			if(sd->state.lr_flag != 2)
-				sd->custom.max_pen_eva = val;
+				sd->custom.max_pen_eva += val;
 			break;
 		case SP_MAX_PEN_BLOCK:
 			if(sd->state.lr_flag != 2)
-				sd->custom.max_pen_block = val;
+				sd->custom.max_pen_block += val;
 			break;
 		case SP_MAX_PEN_RATE:
 			if(sd->state.lr_flag != 2)
