@@ -7807,7 +7807,7 @@ ACMD_FUNC(mobinfo)
 			mrace[mob->status.race], melement[mob->status.def_ele], mob->status.ele_lv);
 		clif_displaymessage(fd, atcmd_output);
 				
-		sprintf(atcmd_output, msg_txt(sd,2000), //  MaxDamageRate:%d MaxDamageLevel:%d MaxDamageExceed:%d MaxEva:%d MaxBlock:%d MaxPenEva:%d MaxPenBlock:%d
+		sprintf(atcmd_output, msg_txt(sd,1536), //  MaxDamageRate:%d MaxDamageLevel:%d MaxDamageExceed:%d MaxEva:%d MaxBlock:%d MaxPenEva:%d MaxPenBlock:%d
 			mob->custom.max_rate, mob->custom.max_damage,mob->custom.max_damage_exceed, mob->custom.max_eva,
 			mob->custom.max_block, mob->custom.max_pen_eva, mob->custom.max_pen_block);
 		clif_displaymessage(fd, atcmd_output);
