@@ -85,3 +85,6 @@ idle_skill_interval_pcbehavior: 4
 min_mob_think_time_pcbehavior: 50
 min_random_walk_time_pcbehavior: 3000
 walk_skill_interval_pcbehavior: 3
+
+
+dynamic_mobs: no
