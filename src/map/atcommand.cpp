@@ -7800,12 +7800,16 @@ ACMD_FUNC(mobinfo)
 		sprintf(atcmd_output, msg_txt(sd,1243), //  DEF:%d  MDEF:%d  STR:%d  AGI:%d  VIT:%d  INT:%d  DEX:%d  LUK:%d
 			mob->status.def, mob->status.mdef,mob->status.str, mob->status.agi,
 			mob->status.vit, mob->status.int_, mob->status.dex, mob->status.luk);
-		clif_displaymessage(fd, atcmd_output);
-
+		clif_displaymessage(fd, atcmd_output);		
 		sprintf(atcmd_output, msg_txt(sd,1244), //  ATK:%d~%d  Range:%d~%d~%d  Size:%s  Race: %s  Element: %s (Lv:%d)
 			mob->status.batk + mob->status.rhw.atk, mob->status.batk + mob->status.rhw.atk2, mob->status.rhw.range,
 			mob->range2 , mob->range3, msize[mob->status.size],
 			mrace[mob->status.race], melement[mob->status.def_ele], mob->status.ele_lv);
+		clif_displaymessage(fd, atcmd_output);
+				
+		sprintf(atcmd_output, msg_txt(sd,2000), //  MaxDamageRate:%d MaxDamageLevel:%d MaxDamageExceed:%d MaxEva:%d MaxBlock:%d MaxPenEva:%d MaxPenBlock:%d
+			mob->custom.max_rate, mob->custom.max_damage,mob->custom.max_damage_exceed, mob->custom.max_eva,
+			mob->custom.max_block, mob->custom.max_pen_eva, mob->custom.max_pen_block);
 		clif_displaymessage(fd, atcmd_output);
 #ifdef RENEWAL
 		sprintf(atcmd_output, msg_txt(sd, 827), mob->status.res, mob->status.mres);//  MDEF:%d  RES:%d  MRES:%d

@@ -1,0 +1,1 @@
+2000:  MaxDamageRate:%d	 MaxDamageLevel:%d  MaxDamageExceed:%d  MaxEva:%d  MaxBlock:%d  MaxPenEva:%d  MaxPenBlock:%d
