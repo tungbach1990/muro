@@ -9369,34 +9369,34 @@ struct Damage battle_calc_attack(int attack_type,struct block_list *bl,struct bl
 	if (sd && tsd)
 	{
 		int64 max_damage = 0;
-		max_damage = 100*intPow(10,sd->bonus.max_damage/10)*(sd->bonus.max_damage%10 + 10)- 1;
-		max_damage = cap_value(max_damage,999,899999999);
-		max_damage = (int64)max_damage * (100 + sd->bonus.max_damage_exceed - tsd->bonus.max_damage_pen_exceed) / 100 ;
+		max_damage = 100*intPow(10,sd->custom.max_damage/10)*(sd->custom.max_damage%10 + 10)- 1;
+		max_damage = cap_value(max_damage,999,999999999);
+		max_damage = (int64)max_damage * (100 + sd->custom.max_damage_exceed - tsd->custom.max_damage_pen_exceed) / 100 ;
 		d.damage = cap_value(d.damage,INT_MIN,max_damage);
 		if (skill_id) 
 		{
-			if ( rand()%100 < cap_value(sd->bonus.max_rate - tsd->bonus.max_pen_rate,1,1000))
+			if ( rand()%100 < cap_value(sd->custom.max_rate - tsd->custom.max_pen_rate,1,1000))
 				d.damage = max_damage;
-			if ( rand()%100 < tsd->bonus.max_eva - sd->bonus.max_pen_eva)
+			if ( rand()%100 < tsd->custom.max_eva - sd->custom.max_pen_eva)
 				d.damage = 0;
-			if ( rand()%100 < tsd->bonus.max_eva - sd->bonus.max_pen_eva)
+			if ( rand()%100 < tsd->custom.max_eva - sd->custom.max_pen_eva)
 				d.damage = 1;
 		}
 	}
 	if (sd && tmd)
 	{
 		int64 max_damage = 0;
-		max_damage = 1000*intPow(10,sd->bonus.max_damage/10)*(sd->bonus.max_damage%10 + 10)- 1;
-		max_damage = cap_value(max_damage,9999,899999999);
-		max_damage = (int64)max_damage * (100 + sd->bonus.max_damage_exceed - tmd->custom.max_damage_pen_exceed) / 100 ;
+		max_damage = 1000*intPow(10,sd->custom.max_damage/10)*(sd->custom.max_damage%10 + 10)- 1;
+		max_damage = cap_value(max_damage,9999,999999999);
+		max_damage = (int64)max_damage * (100 + sd->custom.max_damage_exceed - tmd->custom.max_damage_pen_exceed) / 100 ;
 		d.damage = cap_value(d.damage,INT_MIN,max_damage);
 		if (skill_id) 
 		{
-			if ( rand()%100 < cap_value(sd->bonus.max_rate - tmd->custom.max_pen_rate,1,1000))
+			if ( rand()%100 < cap_value(sd->custom.max_rate - tmd->custom.max_pen_rate,1,1000))
 				d.damage = max_damage;
-			if ( rand()%100 < tmd->custom.max_eva - sd->bonus.max_pen_eva)
+			if ( rand()%100 < tmd->custom.max_eva - sd->custom.max_pen_eva)
 				d.damage = 0;
-			if ( rand()%100 < tmd->custom.max_block - sd->bonus.max_pen_block)
+			if ( rand()%100 < tmd->custom.max_block - sd->custom.max_pen_block)
 				d.damage = 1;
 		}
 	}
@@ -9404,16 +9404,16 @@ struct Damage battle_calc_attack(int attack_type,struct block_list *bl,struct bl
 	{
 		int64 max_damage = 0;
 		max_damage = md->level*100*intPow(10,md->custom.max_damage/10)*(md->custom.max_damage%10 + 10)- 1;
-		max_damage = cap_value(max_damage,999,899999999);
-		max_damage = (int64)max_damage * (100 + md->custom.max_damage_exceed - tsd->bonus.max_damage_pen_exceed) / 100 ;
+		max_damage = cap_value(max_damage,999,999999999);
+		max_damage = (int64)max_damage * (100 + md->custom.max_damage_exceed - tsd->custom.max_damage_pen_exceed) / 100 ;
 		//d.damage = cap_value(d.damage,INT_MIN,max_damage);
 		if (skill_id) 
 		{
-			if ( rand()%100 < cap_value(md->custom.max_rate - tsd->bonus.max_pen_rate,1,1000))
+			if ( rand()%100 < cap_value(md->custom.max_rate - tsd->custom.max_pen_rate,1,1000))
 				d.damage = max_damage;
-			if ( rand()%100 < tsd->bonus.max_eva - md->custom.max_pen_eva)
+			if ( rand()%100 < tsd->custom.max_eva - md->custom.max_pen_eva)
 				d.damage = 0;
-			if ( rand()%100 < tsd->bonus.max_block - md->custom.max_pen_block)
+			if ( rand()%100 < tsd->custom.max_block - md->custom.max_pen_block)
 				d.damage = 1;
 		}
 		

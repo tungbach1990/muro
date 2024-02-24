@@ -3239,15 +3239,6 @@ struct status_data {
 		class_; /// see enum e_classAE
 
 	struct weapon_atk rhw, lhw; //Right Hand/Left Hand Weapon.
-	uint16 max_damage;
-	uint16 max_rate;
-	uint16 max_eva;
-	uint16 max_block;
-	uint16 max_pen_eva;
-	uint16 max_pen_block;
-	uint16 max_pen_rate;
-	uint16 max_damage_exceed;
-	uint16 max_damage_pen_exceed;
 };
 
 ///Additional regen data that only players have.
