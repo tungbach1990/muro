@@ -3806,6 +3806,7 @@ void clif_updatestatus(map_session_data *sd,int type)
 	case SP_CRATE:
 		WFIFOL(fd, 4) = sd->battle_status.crate;
 		break;
+		/*
 	case SP_MAX_DAMAGE:
 		WFIFOL(fd,4)=sd->battle_status.max_damage;
 		break;
@@ -3841,7 +3842,7 @@ void clif_updatestatus(map_session_data *sd,int type)
 		break;
 	case SP_GLOBAL_SKILL_COOLDOWN:
 		WFIFOL(fd,4)=sd->battle_status.global_skill_cooldown;
-		break;		
+		break;		*/
 #else
 	case SP_AP:
 	case SP_TRAITPOINT:
