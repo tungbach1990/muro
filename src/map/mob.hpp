@@ -426,18 +426,6 @@ struct s_mob_drop {
 	bool steal_protected;
 };
 
-struct bonus_data {
-	uint16 max_damage;
-	uint16 max_rate;
-	uint16 max_eva;
-	uint16 max_block;
-	uint16 max_pen_eva;
-	uint16 max_pen_block;
-	uint16 max_pen_rate;
-	uint16 max_damage_exceed;
-	uint16 max_damage_pen_exceed;
-} ; //Special mob information that does not needs to be zero'ed on mob respawn.
-
 struct s_mob_db {
 	uint32 id{};
 	std::string sprite{}, name{}, jname{};
@@ -449,7 +437,6 @@ struct s_mob_db {
 	uint16 lv{ 1 };
 	s_mob_drop dropitem[MAX_MOB_DROP_TOTAL]{}, mvpitem[MAX_MVP_DROP_TOTAL]{};
 	status_data status{};
-	bonus_data custom{};
 	view_data vd{};
 	uint32 option{};
 	std::vector<std::shared_ptr<s_mob_skill>> skill{};

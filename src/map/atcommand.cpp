@@ -9577,15 +9577,15 @@ ACMD_FUNC(stats)
 	output_table[24].value = sd->change_level_2nd;
 	output_table[25].value = sd->change_level_3rd;
 	output_table[26].value = sd->change_level_4th;
-	output_table[27].value = sd->custom.max_rate;
-	output_table[28].value = sd->custom.max_damage;
-	output_table[29].value = sd->custom.max_damage_exceed;
-	output_table[30].value = sd->custom.max_eva;
-	output_table[31].value = sd->custom.max_block;
-	output_table[32].value = sd->custom.max_pen_eva;
-	output_table[33].value = sd->custom.max_pen_block;
+	output_table[27].value = sd->bonus.max_rate;
+	output_table[28].value = sd->bonus.max_damage;
+	output_table[29].value = sd->bonus.max_damage_exceed;
+	output_table[30].value = sd->bonus.max_eva;
+	output_table[31].value = sd->bonus.max_block;
+	output_table[32].value = sd->bonus.max_pen_eva;
+	output_table[33].value = sd->bonus.max_pen_block;
 	output_table[34].value = sd->status.reborn;	
-	output_table[35].value = sd->custom.global_skill_cooldown;	
+	output_table[35].value = sd->bonus.global_skill_cooldown;	
 	output_table[36].value = sd->bonus.crit_def_rate;
 
 	sprintf(job_jobname, "Job - %s %s", job_name(sd->status.class_), "(level %d)");

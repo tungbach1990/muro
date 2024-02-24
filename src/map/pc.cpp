@@ -4239,52 +4239,52 @@ void pc_bonus(map_session_data *sd,int type,int val)
 				sd->bonus.crit_def_rate += val;
 			break;
 		case SP_MAX_DAMAGE:
-			if(sd->state.lr_flag == 2)
-				sd->custom.max_damage+=val;
+			if(sd->state.lr_flag != 2)
+				sd->bonus.max_damage+=val;
 			break;
 		case SP_MAX_RATE:
 			if(sd->state.lr_flag != 2)
-				sd->custom.max_rate+=val;
+				sd->bonus.max_rate+=val;
 			break;
 		case SP_LIMIT_HP:
 			if(sd->state.lr_flag != 2)
-				sd->custom.limit_hp = val;
+				sd->bonus.limit_hp = val;
 			break;
 		case SP_LIMIT_SP:
 			if(sd->state.lr_flag != 2)
-				sd->custom.limit_sp = val;
+				sd->bonus.limit_sp = val;
 			break;
 		case SP_MAX_EVA:
 			if(sd->state.lr_flag != 2)
-				sd->custom.max_eva+=val;
+				sd->bonus.max_eva+=val;
 			break;
 		case SP_MAX_BLOCK:
 			if(sd->state.lr_flag != 2)
-				sd->custom.max_block+=val;
+				sd->bonus.max_block+=val;
 			break;
 		case SP_MAX_PEN_EVA:
 			if(sd->state.lr_flag != 2)
-				sd->custom.max_pen_eva+=val;
+				sd->bonus.max_pen_eva+=val;
 			break;
 		case SP_MAX_PEN_BLOCK:
 			if(sd->state.lr_flag != 2)
-				sd->custom.max_pen_block+=val;
+				sd->bonus.max_pen_block+=val;
 			break;
 		case SP_MAX_PEN_RATE:
 			if(sd->state.lr_flag != 2)
-				sd->custom.max_pen_rate+=val;
+				sd->bonus.max_pen_rate+=val;
 			break;
 		case SP_MAX_DAMAGE_EXCEED:
 			if(sd->state.lr_flag != 2)
-				sd->custom.max_damage_exceed+=val;
+				sd->bonus.max_damage_exceed+=val;
 			break;
 		case SP_MAX_DAMAGE_PEN_EXCEED:
 			if(sd->state.lr_flag != 2)
-				sd->custom.max_damage_pen_exceed+=val;
+				sd->bonus.max_damage_pen_exceed+=val;
 			break;
 		case SP_GLOBAL_SKILL_COOLDOWN:
 			if(sd->state.lr_flag != 2)
-				sd->custom.global_skill_cooldown+=val;
+				sd->bonus.global_skill_cooldown+=val;
 			break;
 		case SP_NO_REGEN:
 			if(sd->state.lr_flag != 2)
@@ -7194,7 +7194,7 @@ int pc_get_skillcooldown(map_session_data *sd, uint16 skill_id, uint16 skill_lv)
 			break;
 		}
 	}
-	cooldown = cooldown * (100 - sd->custom.global_skill_cooldown)/100;
+	cooldown = cooldown * (100 - sd->bonus.global_skill_cooldown)/100;
 	return max(0, cooldown);
 }
 
@@ -10246,19 +10246,19 @@ int64 pc_readparam(map_session_data* sd,int64 type)
 #endif
 		case SP_CRIT_DEF_RATE: val = sd->bonus.crit_def_rate; break;
 		case SP_ADD_ITEM_SPHEAL_RATE: val = sd->bonus.itemsphealrate2; break;
-		case SP_MAX_DAMAGE: val = sd->custom.max_damage;break;
-		case SP_MAX_RATE: val = sd->custom.max_rate;break;
-		case SP_LIMIT_HP: val = sd->custom.limit_hp;break;
-		case SP_LIMIT_SP: val = sd->custom.limit_sp;break;
-		case SP_MAX_EVA: val = sd->custom.max_eva; break;
-		case SP_MAX_BLOCK: val = sd->custom.max_block;break;
-		case SP_MAX_PEN_EVA: val = sd->custom.max_pen_eva;break;
-		case SP_MAX_PEN_BLOCK: val = sd->custom.max_pen_block;break;
-		case SP_MAX_PEN_RATE: val = sd->custom.max_pen_rate;break;
-		case SP_MAX_DAMAGE_EXCEED: val = sd->custom.max_damage_exceed;break;
-		case SP_MAX_DAMAGE_PEN_EXCEED: val = sd->custom.max_damage_pen_exceed;break;
+		case SP_MAX_DAMAGE: val = sd->bonus.max_damage;break;
+		case SP_MAX_RATE: val = sd->bonus.max_rate;break;
+		case SP_LIMIT_HP: val = sd->bonus.limit_hp;break;
+		case SP_LIMIT_SP: val = sd->bonus.limit_sp;break;
+		case SP_MAX_EVA: val = sd->bonus.max_eva; break;
+		case SP_MAX_BLOCK: val = sd->bonus.max_block;break;
+		case SP_MAX_PEN_EVA: val = sd->bonus.max_pen_eva;break;
+		case SP_MAX_PEN_BLOCK: val = sd->bonus.max_pen_block;break;
+		case SP_MAX_PEN_RATE: val = sd->bonus.max_pen_rate;break;
+		case SP_MAX_DAMAGE_EXCEED: val = sd->bonus.max_damage_exceed;break;
+		case SP_MAX_DAMAGE_PEN_EXCEED: val = sd->bonus.max_damage_pen_exceed;break;
 		case SP_REBORN:      sd->status.reborn = static_cast<int>(pc_readglobalreg(sd,add_str(REBORN_VAR))); val = sd->status.reborn ;  break;
-		case SP_GLOBAL_SKILL_COOLDOWN: val = sd->custom.global_skill_cooldown;break;
+		case SP_GLOBAL_SKILL_COOLDOWN: val = sd->bonus.global_skill_cooldown;break;
 		default:
 			ShowError("pc_readparam: Attempt to read unknown parameter '%lld'.\n", type);
 			return -1;
