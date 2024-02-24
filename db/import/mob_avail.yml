@@ -125,16 +125,14 @@ Header:
 #    Sprite: DARK_LORD
 Body:
   - Mob: KRAKEN
-    Sprite: JOB_CHAMPION
+    Sprite: JOB_KNIGHT
     Sex: Male
-    HairStyle: 19
-    HairColor: 10
-    ClothColor: 270
-    Weapon: Krieger_Onehand_Mace1
-    Shield: Buckler
-    HeadTop: Dark_Knight_Mask
-    HeadMid: Robo_Eye
-    HeadLow: Weird_Goatee
+    HairStyle: 27
+    HairColor: 19
+    ClothColor: 120
+    Weapon: Spear
+    HeadTop: Prontera_Army_Cap_Repl
+    HeadLow: Cigar
 
   - Mob: FULLMETAL
     Sprite: JOB_HIGH_PRIEST

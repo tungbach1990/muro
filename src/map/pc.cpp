@@ -14275,7 +14275,7 @@ void PlayerStatPointDatabase::loadingFinished(){
 
 		if( !battle_config.use_statpoint_table || !exists ){
 			if( battle_config.use_statpoint_table ){
-				ShowError("Missing status points for Level %hu\n", level);
+				ShowError("Missing status points for Level %hu %hu\n", level,last_level->level);
 			}
 
 			if( level <= trait_start_level ){
