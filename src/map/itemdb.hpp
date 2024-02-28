@@ -2228,8 +2228,7 @@ struct s_roulette_db {
 extern struct s_roulette_db rd;
 
 ///Main item data struct
-struct item_data
-{
+struct item_data {
 	t_itemid nameid;
 	std::string name, ename;
 
